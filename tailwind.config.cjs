@@ -6,7 +6,13 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['var(--font-satoshi)', 'var(--font-inter)', 'system-ui', 'sans-serif'],
+        bricolage: ['var(--font-bricolage)', 'sans-serif'],
+        satoshi: ['var(--font-satoshi)', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }
