@@ -3,6 +3,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
+import Button from '@/components/ui/Button';
 
 const WhyChooseUs = () => {
     const cards = [
@@ -119,9 +120,9 @@ const WhyChooseUs = () => {
                                             ))}
                                         </ul>
                                         
-                                        <a href="#" className="inline-block bg-[#4CAF50] text-white font-medium py-2.5 px-6 rounded-full text-[15px] hover:bg-[#45a049] transition-colors self-start">
+                                        <Button href="#get-a-quote" variant="primary" className="text-[15px] rounded-full">
                                             Learn More
-                                        </a>
+                                        </Button>
                                     </div>
                                 </div>
                             </div>

@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Button from '@/components/ui/Button';
 
 const Header = () => {
   return (
@@ -21,9 +22,9 @@ const Header = () => {
           <a href="#services" className="text-white/90 hover:text-white transition-colors font-medium text-[15px]">Services</a>
           <a href="#testimonials" className="text-white/90 hover:text-white transition-colors font-medium text-[15px]">Testimonials</a>
         </nav>
-        <a href="#get-a-quote" className="bg-gray-900 text-white font-medium py-2 px-5 rounded-md hover:bg-gray-800 transition-colors text-[15px]">
+        <Button href="#get-a-quote" variant="secondary" className="text-[15px]">
           Get a Quote
-        </a>
+        </Button>
       </div>
     </motion.header>
   );

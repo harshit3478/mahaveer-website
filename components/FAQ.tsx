@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { staggerContainer, fadeInUp } from '@/lib/animations';
+import Button from '@/components/ui/Button';
 
 const PlusIcon = ({ className }: { className?: string }) => (
     <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -34,7 +35,7 @@ const FAQItem: React.FC<{ question: string; answer: string }> = ({ question, ans
                         exit={{ rotate: isOpen ? 90 : -90, opacity: 0 }}
                         transition={{ duration: 0.2 }}
                     >
-                        {isOpen ? <MinusIcon className="w-6 h-6 text-emerald-500" /> : <PlusIcon className="w-6 h-6 text-emerald-500" />}
+                        {isOpen ? <MinusIcon className="w-6 h-6 text-[#4ADE80]" /> : <PlusIcon className="w-6 h-6 text-[#4ADE80]" />}
                     </motion.div>
                 </AnimatePresence>
             </motion.button>
@@ -67,7 +68,7 @@ const FAQ = () => {
     ];
     return (
         <motion.section 
-            className="py-20 px-4 sm:px-10 bg-white text-gray-900"
+            className="py-20 px-4 sm:px-10 bg-[#F9FAFB] text-gray-900"
             initial="initial"
             whileInView="animate"
             viewport={{ once: true, amount: 0.2 }}
@@ -75,11 +76,11 @@ const FAQ = () => {
         >
             <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-start">
                 <motion.div variants={fadeInUp}>
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4">Answering your questions</h2>
+                    <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#4ADE80]">Answering your questions</h2>
                     <p className="text-lg text-gray-500 mb-6">Got more questions? Send us your enquiry below.</p>
-                     <a href="#get-a-quote" className="bg-emerald-500 text-white font-semibold py-3 px-8 rounded-lg hover:bg-emerald-600 transition-colors inline-block">
-                        Contact Us
-                    </a>
+                    <Button href="#get-a-quote" variant="secondary">
+                        Contact us
+                    </Button>
                 </motion.div>
                 <motion.div variants={fadeInUp}>
                     {faqs.map((faq, index) => (

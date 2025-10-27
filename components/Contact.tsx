@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
 
 const Contact = () => {
@@ -11,7 +11,8 @@ const Contact = () => {
         phone: '',
         message: '',
     });
-    const [status, setStatus] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -19,7 +20,7 @@ const Contact = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setStatus('Sending...');
+        setIsLoading(true);
         try {
             const response = await fetch('/api/contact', {
                 method: 'POST',
@@ -29,13 +30,18 @@ const Contact = () => {
                 body: JSON.stringify(formData),
             });
             if (response.ok) {
-                setStatus('Message sent successfully!');
+                setIsLoading(false);
+                setShowSuccess(true);
                 setFormData({ name: '', email: '', phone: '', message: '' });
+                // Auto-hide success modal after 5 seconds
+                setTimeout(() => setShowSuccess(false), 5000);
             } else {
-                setStatus('Error sending message.');
+                setIsLoading(false);
+                alert('Error sending message. Please try again.');
             }
         } catch (error) {
-            setStatus('Error sending message.');
+            setIsLoading(false);
+            alert('Error sending message. Please try again.');
         }
     };
 
@@ -177,21 +183,89 @@ const Contact = () => {
                             <motion.div variants={fadeInUp}>
                                 <button 
                                     type="submit" 
-                                    className="w-full bg-[#4a4a4a] text-white font-medium py-3.5 rounded-lg hover:bg-[#3a3a3a] transition-colors text-[15px]"
+                                    disabled={isLoading}
+                                    className="w-full bg-[#4a4a4a] text-white font-medium py-3.5 rounded-lg hover:bg-[#3a3a3a] transition-colors text-[15px] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                                 >
-                                    Send message
+                                    {isLoading ? (
+                                        <>
+                                            <motion.div
+                                                className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
+                                                animate={{ rotate: 360 }}
+                                                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                                            />
+                                            <span>Sending...</span>
+                                        </>
+                                    ) : (
+                                        'Send message'
+                                    )}
                                 </button>
                             </motion.div>
-                            
-                            {status && (
-                                <p className="text-center mt-4 text-[#4CAF50] font-medium text-[15px]">
-                                    {status}
-                                </p>
-                            )}
                         </form>
                     </div>
                 </motion.div>
             </div>
+
+            {/* Success Modal */}
+            <AnimatePresence>
+                {showSuccess && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4"
+                        onClick={() => setShowSuccess(false)}
+                    >
+                        <motion.div
+                            initial={{ scale: 0.8, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.8, opacity: 0, y: 20 }}
+                            transition={{ type: "spring", duration: 0.5 }}
+                            className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            {/* Success Icon */}
+                            <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                                className="w-16 h-16 bg-[#4ADE80] rounded-full flex items-center justify-center mx-auto mb-4"
+                            >
+                                <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                </svg>
+                            </motion.div>
+
+                            <motion.h3
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.3 }}
+                                className="text-2xl font-bold text-gray-900 text-center mb-2"
+                            >
+                                Message Sent!
+                            </motion.h3>
+
+                            <motion.p
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.4 }}
+                                className="text-gray-600 text-center mb-6"
+                            >
+                                Thank you for reaching out! We've received your message and will get back to you shortly.
+                            </motion.p>
+
+                            <motion.button
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.5 }}
+                                onClick={() => setShowSuccess(false)}
+                                className="w-full bg-[#4ADE80] text-white font-medium py-3 rounded-lg hover:bg-[#3FCE73] transition-colors"
+                            >
+                                Close
+                            </motion.button>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </motion.section>
     );
 };

@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import Image from 'next/image';
 import { staggerContainer, textReveal, fadeInUpSubtle } from '@/lib/animations';
 import { useCountAnimation } from '@/lib/hooks';
+import Button from '@/components/ui/Button';
 
 // Star Icon Component
 const StarIcon = ({ className }: { className?: string }) => (
@@ -52,9 +53,9 @@ const Hero = () => {
                 With over 20 years of experience, we have built a reputation for being the leading wholesale medicine supplier in India
             </motion.p>
             <motion.div variants={fadeInUpSubtle} className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
-                <a href="#get-a-quote" className="bg-[#00A3E0] text-white font-medium py-3 px-8 rounded-md text-[15px] hover:bg-[#0090c7] transition-colors">
+                <Button href="#get-a-quote" variant="accent">
                     Partner With Us
-                </a>
+                </Button>
                 <div className="flex items-center gap-3">
                     <div className="flex -space-x-2">
                         <Image src="/review1.avif" alt="Reviewer 1" width={40} height={40} className="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover"/>
