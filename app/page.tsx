@@ -1,0 +1,770 @@
+'use client'
+
+import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform, Variants, useInView, useMotionValue, useSpring } from 'framer-motion';
+import Image from 'next/image';
+
+// --- Custom Hook for Counter Animation ---
+const useCountAnimation = (end: number, duration: number = 2) => {
+  const count = useMotionValue(0);
+  const rounded = useSpring(count, { duration: duration * 1000, bounce: 0 });
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    const unsubscribe = rounded.on('change', (latest) => {
+      setDisplayValue(Math.round(latest));
+    });
+    return () => unsubscribe();
+  }, [rounded]);
+
+  const startCount = () => {
+    count.set(end);
+  };
+
+  return { displayValue, startCount };
+};
+
+// --- Animation Variants ---
+const fadeInUp = {
+  initial: { opacity: 0, y: 60 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+};
+
+const fadeInUpSubtle = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut", delay: 0.2 } },
+};
+
+const textReveal = {
+  initial: { opacity: 0, y: 0 },
+  animate: { 
+    opacity: 1, 
+    y: 0,
+    transition: { 
+      duration: 0.8, 
+      ease: [0.6, 0.05, 0.01, 0.9],
+    } 
+  },
+};
+
+const staggerContainer = {
+  initial: {},
+  animate: {
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const cardHover = {
+    rest: { scale: 1 },
+    hover: { scale: 1.05 },
+};
+
+
+// --- SVG Icons ---
+const StarIcon = ({ className }: { className?: string }) => (
+  <svg className={`w-5 h-5 ${className}`} fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+);
+
+const PlusIcon = ({ className }: { className?: string }) => (
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+    </svg>
+);
+
+const MinusIcon = ({ className }: { className?: string }) => (
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15" />
+    </svg>
+);
+
+const ServiceIcons: { [key: string]: React.ReactNode } = {
+    FulfillmentRate: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-emerald-500"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>,
+    CustomerSupport: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-emerald-500"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" /></svg>,
+    Transparency: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-emerald-500"><path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639l4.25-8.5a1.012 1.012 0 0 1 .93-.611h11.584c.473 0 .88.322.994.767l4.25 8.5a1.012 1.012 0 0 1 0 .639l-4.25 8.5a1.012 1.012 0 0 1-.994.767H7.216a1.012 1.012 0 0 1-.93-.611l-4.25-8.5Z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>,
+    Seamlessness: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-emerald-500"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>,
+    FastestDelivery: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-emerald-500"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125V14.25m-17.25 4.5v-1.875a3.375 3.375 0 0 1 3.375-3.375h9.75a3.375 3.375 0 0 1 3.375 3.375v1.875" /><path strokeLinecap="round" strokeLinejoin="round" d="M9 13.5v-7.5m3 7.5v-7.5m3 7.5v-7.5m-12-3H3.375c-.621 0-1.125.504-1.125 1.125V12.75" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 3h.375c.621 0 1.125.504 1.125 1.125V12.75" /></svg>,
+    OnePlatform: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-emerald-500"><path strokeLinecap="round" strokeLinejoin="round" d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" /></svg>,
+};
+
+
+// --- Components ---
+
+const Header = () => {
+  return (
+    <motion.header 
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="absolute top-0 left-0 right-0 z-50 py-6 px-6 sm:px-12">
+      <div className="container mx-auto flex justify-between items-center">
+        <div className="flex items-center gap-2">
+          <Image src="/mahaveer-logo.avif" alt="Mahaveer Medi Logo" width={40} height={40} className="rounded-md" />
+          <span className="text-lg font-semibold text-white">Mahaveer Medi</span>
+        </div>
+        <nav className="hidden md:flex items-center space-x-8">
+          <a href="#about" className="text-white/90 hover:text-white transition-colors font-medium text-[15px]">About</a>
+          <a href="#services" className="text-white/90 hover:text-white transition-colors font-medium text-[15px]">Services</a>
+          <a href="#testimonials" className="text-white/90 hover:text-white transition-colors font-medium text-[15px]">Testimonials</a>
+        </nav>
+        <a href="#get-a-quote" className="bg-gray-900 text-white font-medium py-2 px-5 rounded-md hover:bg-gray-800 transition-colors text-[15px]">
+          Get a Quote
+        </a>
+      </div>
+    </motion.header>
+  );
+};
+
+const Hero = () => {
+  return (
+    <section className="relative h-[92vh] flex items-center justify-start text-white overflow-hidden">
+        <video 
+            autoPlay 
+            loop 
+            muted 
+            playsInline
+            className="absolute z-0 w-full h-full object-cover"
+        >
+            <source src="/video.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent z-10"></div>
+        <motion.div 
+            className="z-20 px-8 sm:px-16 lg:px-24 max-w-3xl"
+            variants={staggerContainer}
+            initial="initial"
+            animate="animate"
+        >
+            <motion.p 
+                variants={textReveal}
+                className="text-[15px] md:text-base text-white/90 mb-3 font-normal tracking-normal"
+            >
+                We are India's Leading
+            </motion.p>
+            <motion.h1 
+                variants={textReveal}
+                className="text-[56px] md:text-[64px] lg:text-[72px] font-bold mb-5 leading-[1.1] tracking-tight"
+            >
+                Medicine Supplier
+            </motion.h1>
+            <motion.p 
+                variants={fadeInUpSubtle}
+                className="text-[15px] md:text-[16px] max-w-lg text-white/90 mb-8 leading-relaxed font-normal"
+            >
+                With over 20 years of experience, we have built a reputation for being the leading wholesale medicine supplier in India
+            </motion.p>
+            <motion.div variants={fadeInUpSubtle} className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+                <a href="#get-a-quote" className="bg-[#00A3E0] text-white font-medium py-3 px-8 rounded-md text-[15px] hover:bg-[#0090c7] transition-colors">
+                    Partner With Us
+                </a>
+                <div className="flex items-center gap-3">
+                    <div className="flex -space-x-2">
+                        <Image src="/review1.avif" alt="Reviewer 1" width={40} height={40} className="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover"/>
+                        <Image src="/review2.avif" alt="Reviewer 2" width={40} height={40} className="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover"/>
+                        <Image src="/review3.avif" alt="Reviewer 3" width={40} height={40} className="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover"/>
+                    </div>
+                    <div className="text-left">
+                        <div className="flex text-yellow-400 mb-0.5">
+                            <StarIcon /> <StarIcon /> <StarIcon /> <StarIcon /> <StarIcon />
+                        </div>
+                        <p className="text-[13px] text-white/90 font-normal">From 2000+ ratings</p>
+                    </div>
+                </div>
+            </motion.div>
+        </motion.div>
+    </section>
+  );
+};
+
+const ParallaxImage = ({ src, alt, className, speed = 15 }: { src: string; alt: string; className?: string; speed?: number }) => {
+    const ref = useRef<HTMLDivElement | null>(null);
+    const { scrollYProgress } = useScroll({
+        target: ref,
+        offset: ["start end", "end start"]
+    });
+    const y = useTransform(scrollYProgress, [0, 1], [`-${speed}%`, `${speed}%`]);
+
+    return (
+        <div ref={ref} className={`overflow-hidden rounded-lg ${className}`}>
+             <motion.img 
+                src={src} 
+                alt={alt} 
+                className="w-full h-full object-cover"
+                style={{ y }}
+             />
+        </div>
+    );
+}
+
+// Counter component with animation
+const StatCounter = ({ end, label, icon }: { end: number; label: string; icon: string }) => {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, amount: 0.5 });
+    const [hasStarted, setHasStarted] = useState(false);
+    const { displayValue, startCount } = useCountAnimation(end, 2);
+
+    useEffect(() => {
+        if (isInView && !hasStarted) {
+            setHasStarted(true);
+            startCount();
+        }
+    }, [isInView, hasStarted, startCount]);
+
+    const formatValue = (val: number) => {
+        if (end >= 10000) return `${(val / 1000).toFixed(0)}k+`;
+        if (end >= 1000) return `${(val / 1000).toFixed(0)}k+`;
+        if (end >= 100) return `${val}+`;
+        return `${val}+`;
+    };
+
+    return (
+        <div ref={ref} className="flex flex-col items-center">
+            <Image src={icon} alt={label} width={48} height={48} className="mb-3" />
+            <p className="text-[40px] font-bold text-gray-900 leading-none">{formatValue(displayValue)}</p>
+            <p className="text-gray-600 text-[14px] mt-2 text-center">{label}</p>
+        </div>
+    );
+};
+
+const AboutUs = () => {
+    const stats = [
+        { value: 20, label: 'Years of Experience', icon: '/aboutUs/icon1.svg' },
+        { value: 25000, label: 'SKUs', icon: '/aboutUs/icon2.svg' },
+        { value: 600, label: 'Employees', icon: '/aboutUs/icon3.svg' },
+        { value: 10000, label: 'Happy Customers', icon: '/aboutUs/icon4.svg' },
+    ];
+    
+    const images = [
+        '/aboutUs/side-image1.avif',
+        '/aboutUs/side-image2.webp',
+        '/aboutUs/side-image3.avif',
+        '/aboutUs/side-image4.avif',
+        '/aboutUs/side-image5.avif',
+    ];
+
+    return (
+        <motion.section 
+            id="about" 
+            className="py-20 px-4 sm:px-10 bg-white text-gray-900"
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, amount: 0.3 }}
+            variants={staggerContainer}
+        >
+            <div className="container mx-auto grid lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <motion.h2 variants={fadeInUp} className="text-[56px] font-bold mb-6 text-[#4CAF50] leading-[1.1]">About Us</motion.h2>
+                    <motion.p variants={fadeInUp} className="text-gray-600 text-[16px] mb-4 leading-relaxed font-normal">
+                        <span className="font-semibold text-gray-900">Mahaveer Medi-Sales Pvt. Ltd. (MMSPL)</span> has been a leading pharma distributor in Bengaluru for over two decades. With a robust network, we partner with <span className="font-semibold text-gray-900">280+</span> pharmaceutical companies and <span className="font-semibold text-gray-900">1500</span> divisions, serving <span className="font-semibold text-gray-900">10,000</span> chemists, hospitals, and government institutions daily.
+                    </motion.p>
+                    <motion.p variants={fadeInUp} className="text-gray-600 text-[16px] mb-12 leading-relaxed font-normal">
+                        We take pride in being the <span className="font-semibold text-gray-900">first digitalized distributor</span> in the pharma industry, driving innovation and excellence in pharmaceutical trade.
+                    </motion.p>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
+                        {stats.map((stat) => (
+                            <StatCounter
+                                key={stat.label}
+                                end={stat.value}
+                                label={stat.label}
+                                icon={stat.icon}
+                            />
+                        ))}
+                    </div>
+                </div>
+                <div className="grid grid-cols-3 grid-rows-3 gap-3 h-[500px]">
+                    <div className="col-span-1 row-span-2 rounded-xl overflow-hidden">
+                        <Image src={images[0]} alt="About 1" width={300} height={600} className="w-full h-full object-cover" />
+                    </div>
+                    <div className="col-span-2 row-span-1 rounded-xl overflow-hidden">
+                        <Image src={images[1]} alt="About 2" width={600} height={300} className="w-full h-full object-cover" />
+                    </div>
+                    <div className="col-span-1 row-span-1 rounded-xl overflow-hidden">
+                        <Image src={images[2]} alt="About 3" width={300} height={300} className="w-full h-full object-cover" />
+                    </div>
+                    <div className="col-span-1 row-span-2 rounded-xl overflow-hidden">
+                        <Image src={images[3]} alt="About 4" width={300} height={600} className="w-full h-full object-cover" />
+                    </div>
+                    <div className="col-span-1 row-span-1 rounded-xl overflow-hidden">
+                        <Image src={images[4]} alt="About 5" width={300} height={300} className="w-full h-full object-cover" />
+                    </div>
+                </div>
+            </div>
+        </motion.section>
+    );
+};
+
+const WhyChooseUs = () => {
+    const cards = [
+        {
+            title: "Our Fleet, Your Peace of Mind",
+            description: "With 150+ dedicated delivery vehicles, we ensure medicines reach you quickly, safely, and on schedule.",
+            image: "/whychooseus/card-image1.avif",
+            features: [
+                "Real Time Tracking",
+                "Temperature-controlled Transport",
+                "On-time delivery guarantee"
+            ]
+        },
+        {
+            title: "Connecting India's Health",
+            description: "From metros to remote towns, our robust network connects pharmacies and hospitals across all of India",
+            image: "/whychooseus/card-image2.avif",
+            features: [
+                "24×7 supply coverage through our hubs",
+                "Extensive reach into rural and urban areas",
+                "Seamless distribution backed by technology"
+            ]
+        },
+        {
+            title: "Certified Excellence",
+            description: "We follow strict quality standards and hold industry certifications, guaranteeing genuine products every time",
+            image: "/whychooseus/card-image3.avif",
+            features: [
+                "100% genuine products, guaranteed",
+                "Strict quality & storage standards",
+                "Verification by expert pharmacists"
+            ]
+        },
+        {
+            title: "Technology-Driven Logistics",
+            description: "Real-time tracking and digital inventory management bring transparency and efficiency to every order.",
+            image: "/whychooseus/card-image4.avif",
+            features: [
+                "Real-time GPS delivery tracking",
+                "Simple one-click reordering",
+                "Smart inventory management"
+            ]
+        },
+        {
+            title: "Wide Product Range",
+            description: "From life-saving medicines to everyday healthcare essentials, we cover all major medical categories.",
+            image: "/whychooseus/card-image5.avif",
+            features: [
+                "Branded, generic & OTC medicines",
+                "Vaccines & critical care drugs",
+                "Surgical supplies & medical devices"
+            ]
+        }
+    ];
+
+    const targetRef = useRef<HTMLDivElement | null>(null);
+    const { scrollYProgress } = useScroll({
+        target: targetRef,
+        offset: ['start start', 'end start']
+    });
+
+    const x = useTransform(scrollYProgress, [0.1, 0.9], ['0%', `-${(cards.length - 1) * 50}%`]);
+    const opacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [1, 1, 1, 0]);
+
+    return (
+        <section ref={targetRef} className="relative h-[300vh] bg-white text-gray-900">
+            <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
+                <div className="container mx-auto px-4 sm:px-10">
+                    <motion.div 
+                      style={{ opacity }}
+                      className="text-center mb-12 max-w-3xl mx-auto"
+                    >
+                        <h2 className="text-[56px] font-bold mb-3 text-[#0EA5E9] leading-[1.1]">Why Choose Us?</h2>
+                        <p className="text-gray-600 text-[16px]">
+                            Because reliable healthcare needs a <span className="font-semibold text-gray-900">reliable partner</span>.
+                        </p>
+                    </motion.div>
+                    
+                    <motion.div style={{ x, width: `${cards.length * 70}%` }} className="flex gap-8">
+                        {cards.map((card) => (
+                            <div key={card.title} className="flex-shrink-0 " style={{ width: `${100 / cards.length}%` }}>
+                                <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-lg   hover:bg-red-300 border border-gray-100 text-left flex justify-center items-center flex-col md:flex-row gap-6  h-full mx-4">
+                                    <div className="flex-shrink-0 w-1/2 bg-blue-50">
+                                        <Image 
+                                            src={card.image} 
+                                            alt={card.title} 
+                                            width={350}
+                                            height={300}
+                                            className=" object-contain"
+                                        />
+                                    </div>
+                                    <div className="flex flex-col flex-1 bg-green-50">
+                                        <h3 className="text-5xl f mb-3 text-gray-900 leading-tight">{card.title}</h3>
+                                        <p className="text-gray-600 text-[15px] mb-5 leading-relaxed">{card.description}</p>
+                                        
+                                        <ul className="space-y-2.5 mb-6 flex-grow">
+                                            {card.features.map((feature, idx) => (
+                                                <li key={idx} className="flex items-start gap-2 text-gray-700 text-[15px]">
+                                                    <svg 
+                                                        className="w-5 h-5 text-gray-900 flex-shrink-0 mt-0.5" 
+                                                        fill="none" 
+                                                        viewBox="0 0 24 24" 
+                                                        stroke="currentColor"
+                                                    >
+                                                        <path 
+                                                            strokeLinecap="round" 
+                                                            strokeLinejoin="round" 
+                                                            strokeWidth={2} 
+                                                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" 
+                                                        />
+                                                    </svg>
+                                                    <span>{feature}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                        
+                                        <a href="#" className="inline-block bg-[#4CAF50] text-white font-medium py-2.5 px-6 rounded-full text-[15px] hover:bg-[#45a049] transition-colors self-start">
+                                            Learn More
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </motion.div>
+                </div>
+            </div>
+        </section>
+    );
+};
+
+const Services = () => {
+    const services = [
+        { name: "Fulfillment Rate", description: "We aim to constantly fulfill all orders of our customers with our fill rate being 98%." },
+        { name: "Customer Support", description: "Developing a relationship with our customers is what we strive at." },
+        { name: "Transparency", description: "We believe in complete transparency across all processes for our customers." },
+        { name: "Seamlessness", description: "Experience effortless procurement. Our digital approach makes orders and payments seamless and hassle-free." },
+        { name: "Fastest Delivery", description: "We utilize a variety of delivery methods to streamline the process, ensuring we reach our customers as quickly as possible." },
+        { name: "One Platform", description: "Our app allows you to easily place orders, check their status, and complete transactions all in one place." },
+    ];
+    return (
+        <motion.section 
+            id="services" 
+            className="py-20 px-4 sm:px-10 bg-white text-gray-900"
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={staggerContainer}
+        >
+            <div className="container mx-auto text-center">
+                <motion.h2 variants={fadeInUp} className="text-4xl md:text-5xl font-bold mb-2 text-gray-900">Our Services</motion.h2>
+                <motion.p variants={fadeInUp} className="text-lg text-gray-500 mb-12">More than just services, this is our promise of partnership and excellence.</motion.p>
+                <motion.div variants={staggerContainer} className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {services.map(service => (
+                        <motion.div 
+                            key={service.name} 
+                            variants={fadeInUp}
+                            whileHover="hover"
+                            className="bg-white border border-gray-200 p-8 rounded-xl text-left hover:border-emerald-500 transition-colors shadow-sm"
+                        >
+                            <motion.div variants={cardHover}>
+                                <div className="mb-4">{ServiceIcons[service.name.replace(/\s/g, '')]}</div>
+                                <h3 className="text-2xl font-bold mb-2">{service.name}</h3>
+                                <p className="text-gray-600">{service.description}</p>
+                            </motion.div>
+                        </motion.div>
+                    ))}
+                </motion.div>
+            </div>
+        </motion.section>
+    );
+};
+
+const Clients = () => {
+    const logos = ["LogoIpsum", "Client Co", "Pharma Inc", "Health Partner", "MediCorp", "Supply Solutions", "Well Group"];
+    const duplicatedLogos = [...logos, ...logos, ...logos, ...logos]; 
+    
+    const marqueeVariants: Variants = {
+        animate: {
+            x: "-50%",
+            transition: {
+                repeat: Infinity,
+                repeatType: "loop",
+                duration: 40,
+                ease: "linear",
+            },
+        },
+    };
+
+    return (
+        <section className="py-20 bg-white text-gray-800 overflow-hidden">
+            <div className="container mx-auto text-center">
+                 <motion.h2 
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                    className="text-4xl md:text-5xl font-bold mb-12"
+                >
+                    Our Clients
+                </motion.h2>
+                 <div className="w-full overflow-hidden">
+                    <motion.div
+                        className="flex whitespace-nowrap"
+                        variants={marqueeVariants}
+                        animate="animate"
+                    >
+                       {duplicatedLogos.map((logo, index) => (
+                           <div key={index} className="flex-shrink-0 w-64 flex items-center justify-center mx-4">
+                               <p className="text-3xl font-bold text-gray-400">{logo}</p>
+                           </div>
+                       ))}
+                    </motion.div>
+                 </div>
+            </div>
+        </section>
+    );
+};
+
+const Testimonials = () => {
+    const testimonials = [
+        { name: 'Mr. Rishank CR', company: 'Balaji Medical Centre', quote: "They hear out the retailer's problems and solve them too. All this happens because of the amazing management. I suggest others try their service to experience the best.", avatar: 'https://picsum.photos/seed/avatar1/100/100' },
+        { name: 'Mr. Madhu', company: 'Madhu Medicals', quote: "As a business owner, Mahaveer has given us the platform to gain much more confidence and have good stock availability without any worry about supplies.", avatar: 'https://picsum.photos/seed/avatar2/100/100' },
+        { name: 'Mr. Shivaraj B C', company: 'Sri Manjunatha Medicals', quote: "We feel much more organized and aware of all products. Mahaveer gives us visibility into our purchases and schemes and reduces our workload to a minimum.", avatar: 'https://picsum.photos/seed/avatar3/100/100' },
+        { name: 'Mr. Raviraj Purohit', company: 'Rana Ramdev Group', quote: "Being an owner of multiple stores, accounting becomes critical but Mahaveer Medi Sales enables hassle-free accounting, accurate GST Uploads, and maintenance of Ledgers.", avatar: 'https://picsum.photos/seed/avatar4/100/100' },
+        { name: 'Mr. Mahaveer Kochar', company: 'Leap Health', quote: "Mahaveer provided us the ability to track and maintain inventory and segregate it with new companies/products introduced.", avatar: 'https://picsum.photos/seed/avatar5/100/100' },
+        { name: 'Mr. Uday Kumar', company: 'Janhavi Medicals', quote: "Responsible, Punctual, and Knowledgeable. I have only good things to say about Mahaveer Medi Sales. Huge respect to their delivery team as well.", avatar: 'https://picsum.photos/seed/avatar6/100/100' },
+    ];
+    return (
+        <motion.section 
+            id="testimonials" 
+            className="py-20 px-4 sm:px-10 bg-gray-50 text-gray-900"
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={staggerContainer}
+        >
+            <div className="container mx-auto">
+                <div className="text-center">
+                    <motion.h2 variants={fadeInUp} className="text-4xl md:text-5xl font-bold mb-2 text-gray-900">Client Testimonials</motion.h2>
+                    <motion.p variants={fadeInUp} className="text-lg text-gray-500 mb-12">Our clients' words reflect our commitment to excellence.</motion.p>
+                </div>
+                <motion.div variants={staggerContainer} className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {testimonials.map(t => (
+                        <motion.div 
+                            key={t.name} 
+                            variants={fadeInUp} 
+                            whileHover={{ y: -8, boxShadow: "0px 10px 30px -5px rgba(16, 185, 129, 0.1)" }}
+                            transition={{ duration: 0.2, ease: "easeInOut" }}
+                            className="bg-white border border-gray-200 p-6 rounded-xl flex flex-col h-full shadow-sm"
+                        >
+                            <p className="text-gray-600 italic mb-6 flex-grow">"{t.quote}"</p>
+                            <div className="flex items-center mt-auto">
+                                <img src={t.avatar} alt={t.name} className="w-12 h-12 rounded-full mr-4"/>
+                                <div>
+                                    <p className="font-bold text-gray-800">{t.name}</p>
+                                    <p className="text-gray-500">{t.company}</p>
+                                </div>
+                            </div>
+                        </motion.div>
+                    ))}
+                </motion.div>
+            </div>
+        </motion.section>
+    );
+};
+
+const FAQItem: React.FC<{ question: string; answer: string }> = ({ question, answer }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    return (
+        <div className="border-b border-gray-200 py-6">
+            <motion.button
+                className="w-full flex justify-between items-center text-left text-xl font-semibold text-gray-900"
+                onClick={() => setIsOpen(!isOpen)}
+                whileTap={{ scale: 0.98 }}
+            >
+                <span>{question}</span>
+                <AnimatePresence initial={false} mode="wait">
+                    <motion.div
+                        key={isOpen ? 'minus' : 'plus'}
+                        initial={{ rotate: isOpen ? -90 : 90, opacity: 0 }}
+                        animate={{ rotate: 0, opacity: 1 }}
+                        exit={{ rotate: isOpen ? 90 : -90, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        {isOpen ? <MinusIcon className="w-6 h-6 text-emerald-500" /> : <PlusIcon className="w-6 h-6 text-emerald-500" />}
+                    </motion.div>
+                </AnimatePresence>
+            </motion.button>
+            <AnimatePresence initial={false}>
+                {isOpen && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                        animate={{ height: 'auto', opacity: 1, marginTop: '16px' }}
+                        exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                        transition={{ duration: 0.3, ease: 'easeInOut' }}
+                        className="overflow-hidden"
+                    >
+                        <p className="text-gray-600">{answer}</p>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
+    );
+};
+
+const FAQ = () => {
+    const faqs = [
+        { q: "Who can purchase products from Mahaveer Medi-Sales Pvt. Ltd.?", a: "We primarily serve chemists, hospitals, and government institutions. Please contact us to see if your organization is eligible." },
+        { q: "What geographical areas do you cover for pharmaceutical distribution?", a: "Our distribution network is extensive, with a primary focus on Bengaluru and surrounding regions, but we serve clients across India." },
+        { q: "Do you offer free quotes?", a: "Yes, we provide free, no-obligation quotes for all your pharmaceutical supply needs. Contact our sales team to get started." },
+        { q: "How quickly can I expect my order to be delivered?", a: "Delivery times vary based on location and order size, but we pride ourselves on having one of the fastest delivery systems in the industry." },
+        { q: "Do you provide a guarantee for your work?", a: "We guarantee the authenticity and quality of all our products, adhering to strict quality control standards and certifications." },
+        { q: "What is your target fulfillment rate for customer orders?", a: "We consistently maintain a fulfillment rate of 98%, ensuring our customers receive what they need, when they need it." },
+        { q: "What is the extent of your product range, and how many companies do you distribute for?", a: "We offer over 25,000 SKUs and partner with more than 280 pharmaceutical companies, providing one of the most comprehensive product ranges available." },
+    ];
+    return (
+        <motion.section 
+            className="py-20 px-4 sm:px-10 bg-white text-gray-900"
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={staggerContainer}
+        >
+            <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-start">
+                <motion.div variants={fadeInUp}>
+                    <h2 className="text-4xl md:text-5xl font-bold mb-4">Answering your questions</h2>
+                    <p className="text-lg text-gray-500 mb-6">Got more questions? Send us your enquiry below.</p>
+                     <a href="#get-a-quote" className="bg-emerald-500 text-white font-semibold py-3 px-8 rounded-lg hover:bg-emerald-600 transition-colors inline-block">
+                        Contact Us
+                    </a>
+                </motion.div>
+                <motion.div variants={fadeInUp}>
+                    {faqs.map((faq, index) => (
+                        <FAQItem key={index} question={faq.q} answer={faq.a} />
+                    ))}
+                </motion.div>
+            </div>
+        </motion.section>
+    );
+};
+
+const Contact = () => {
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        message: '',
+    });
+    const [status, setStatus] = useState('');
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setStatus('Sending...');
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+            if (response.ok) {
+                setStatus('Message sent successfully!');
+                setFormData({ name: '', email: '', phone: '', message: '' });
+            } else {
+                setStatus('Error sending message.');
+            }
+        } catch (error) {
+            setStatus('Error sending message.');
+        }
+    };
+
+    return (
+        <motion.section 
+            id="get-a-quote" 
+            className="py-20 px-4 sm:px-10 bg-gray-50 text-gray-900"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.8 }}
+        >
+            <div className="container mx-auto bg-white rounded-xl p-8 lg:p-12 grid lg:grid-cols-2 gap-12 shadow-lg border border-gray-100">
+                <motion.div
+                    initial="initial"
+                    whileInView="animate"
+                    viewport={{ once: true }}
+                    variants={staggerContainer}
+                >
+                    <motion.h2 variants={fadeInUp} className="text-4xl md:text-5xl font-bold mb-4">Get in touch</motion.h2>
+                    <motion.p variants={fadeInUp} className="text-gray-600 mb-8">For any inquiries or to explore your vision further, we invite you to contact our professional team using the details provided below.</motion.p>
+                    <motion.div variants={fadeInUp} className="space-y-4">
+                        <p><strong>Office:</strong> Mahaveer Arcade, Sirsi Rd, Bengaluru</p>
+                        <p><strong>Email:</strong> info@mahaveersales.com</p>
+                        <p><strong>Telephone:</strong> 080-45655000</p>
+                    </motion.div>
+                    <motion.div variants={fadeInUp} className="mt-8">
+                        <p className="font-semibold mb-2">Follow us</p>
+                        {/* Add social icons here */}
+                    </motion.div>
+                </motion.div>
+                <motion.form 
+                    onSubmit={handleSubmit}
+                    className="space-y-4"
+                    variants={staggerContainer}
+                    initial="initial"
+                    whileInView="animate"
+                    viewport={{ once: true, amount: 0.3 }}
+                >
+                    <motion.div variants={fadeInUp}>
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name*</label>
+                        <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} placeholder="John Smith" required className="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition"/>
+                    </motion.div>
+                     <motion.div variants={fadeInUp}>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email*</label>
+                        <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} placeholder="johnsmith@gmail.com" required className="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition"/>
+                    </motion.div>
+                     <motion.div variants={fadeInUp}>
+                        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} placeholder="+91 789 123456" className="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition"/>
+                    </motion.div>
+                     <motion.div variants={fadeInUp}>
+                        <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message*</label>
+                        <textarea id="message" name="message" value={formData.message} onChange={handleChange} rows={4} placeholder="Hello, I'd like to enquire about..." required className="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition resize-none"></textarea>
+                    </motion.div>
+                    <motion.div variants={fadeInUp}>
+                      <button type="submit" className="w-full bg-gray-900 text-white font-semibold py-3 rounded-lg hover:bg-gray-800 transition-colors">Send Message</button>
+                    </motion.div>
+                    {status && <p className="text-center mt-4 text-emerald-600 font-medium">{status}</p>}
+                </motion.form>
+            </div>
+        </motion.section>
+    );
+};
+
+const Footer = () => {
+    return (
+        <footer className="py-8 border-t border-gray-200 bg-white text-gray-500">
+            <div className="container mx-auto flex flex-col md:flex-row justify-between items-center text-center md:text-left px-4 sm:px-10">
+                <div className="flex items-center gap-3">
+                    <Image src="/mahaveer-logo.avif" alt="Mahaveer Medi Logo" width={40} height={40} className="rounded-lg" />
+                    <span className="text-lg font-bold text-gray-900">Mahaveer Medi</span>
+                </div>
+                <p className="mt-4 md:mt-0">&copy; {new Date().getFullYear()} Mahaveer Medi-Sales. All rights reserved.</p>
+                 <div className="flex space-x-4 mt-4 md:mt-0">
+                    <a href="#" className="hover:text-gray-900 transition-colors">Twitter</a>
+                    <a href="#" className="hover:text-gray-900 transition-colors">LinkedIn</a>
+                </div>
+            </div>
+        </footer>
+    );
+};
+
+
+export default function App() {
+  return (
+    <div className="bg-white">
+      <Header />
+      <main>
+        <Hero />
+        <AboutUs />
+        <WhyChooseUs />
+        <Services />
+        <Clients />
+        <Testimonials />
+        <FAQ />
+        <Contact />
+      </main>
+      <Footer />
+    </div>
+  )
+}
