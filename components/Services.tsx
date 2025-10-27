@@ -36,7 +36,7 @@ const ServiceCard = ({ service }: { service: { name: string; description: string
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: 20 }}
                             transition={{ duration: 0.1, ease: "easeInOut" }}
-                            className="text-[#67B23C] absolute"
+                            className="text-[#67B33C] absolute"
                         >
                             <IconComponent size={48} weight="regular" />
                         </motion.div>
@@ -73,13 +73,13 @@ const Services = () => {
     return (
         <motion.section 
             id="services" 
-            className="py-20 px-4 sm:px-10 bg-white text-gray-900"
+            className="py-20 px-6 sm:px-10 lg:px-14 bg-white text-gray-900"
             initial="initial"
             whileInView="animate"
             viewport={{ once: true, amount: 0.2 }}
             variants={staggerContainer}
         >
-            <div className="container mx-auto text-center">
+            <div className="max-w-[1600px] mx-auto text-center">
                 <motion.h2 variants={fadeInUp} className="text-[60px] font-medium mb-1 text-[#009ED6] leading-[1.1] font-satoshi">Our Services</motion.h2>
                 <motion.p variants={fadeInUp} className="text-slate-500 text-[15px] font-normal font-inter mb-10 ">More than just services, this is our promise of partnership and excellence.</motion.p>
                 <motion.div variants={staggerContainer} className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">

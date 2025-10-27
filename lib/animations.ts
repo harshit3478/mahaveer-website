@@ -21,11 +21,64 @@ export const textReveal = {
   },
 };
 
+// Word-by-word reveal animation for headlines
+export const wordReveal = {
+  initial: { opacity: 0, y: 20 },
+  animate: { 
+    opacity: 1, 
+    y: 0,
+    transition: { 
+      duration: 0.5, 
+      ease: [0.6, 0.05, 0.01, 0.9],
+    } 
+  },
+};
+
+// Slide up from bottom animation
+export const slideUpFromBottom = {
+  initial: { opacity: 0, y: 40 },
+  animate: { 
+    opacity: 1, 
+    y: 0,
+    transition: { 
+      duration: 0.7, 
+      ease: "easeOut",
+    } 
+  },
+};
+
+// Slide from left animation (for button)
+export const slideFromLeft = {
+  initial: { opacity: 0, x: -60 },
+  animate: { 
+    opacity: 1, 
+    x: 0,
+    transition: { 
+      duration: 0.6, 
+      ease: "easeOut",
+    } 
+  },
+};
+
+// Slide from right animation (for images/reviews)
+export const slideFromRight = {
+  initial: { opacity: 0, x: 60 },
+  animate: { 
+    opacity: 1, 
+    x: 0,
+    transition: { 
+      duration: 0.6, 
+      ease: "easeOut",
+    } 
+  },
+};
+
 export const staggerContainer = {
   initial: {},
   animate: {
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.15,
+      delayChildren: 0.2,
     },
   },
 };

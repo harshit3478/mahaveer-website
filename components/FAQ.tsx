@@ -69,14 +69,14 @@ const FAQ = () => {
     ];
     return (
         <motion.section 
-            id="faq"
-            className="py-20 px-4 sm:px-10 bg-white text-gray-900"
+            id="faq" 
+            className="py-20 px-6 sm:px-10 lg:px-14 bg-white text-gray-900"
             initial="initial"
             whileInView="animate"
             viewport={{ once: true, amount: 0.2 }}
             variants={staggerContainer}
         >
-            <div className="container mx-auto">
+            <div className="max-w-[1600px] mx-auto">
                 {/* Desktop: 2 columns with sticky right side, Mobile: FAQ items first, then centered heading */}
                 <div className="flex flex-col-reverse lg:flex-row lg:grid lg:grid-cols-12 gap-12 items-start">
                     {/* FAQ Items - Left side on desktop, top on mobile */}
@@ -91,7 +91,7 @@ const FAQ = () => {
                         variants={fadeInUp} 
                         className="lg:col-span-5 lg:sticky lg:top-24 text-center lg:text-left"
                     >
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-[#67B23C]">
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-[#67B33C]">
                             Answering your questions
                         </h2>
                         <p className="text-base md:text-lg text-gray-500 mb-6">

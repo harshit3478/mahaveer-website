@@ -4,12 +4,12 @@ import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import Button from '@/components/ui/Button';
-
+import { LuBookmarkCheck } from "react-icons/lu";
 const WhyChooseUs = () => {
     const cards = [
         {
             title: "Our Fleet, Your Peace of Mind",
-            description: "With 150+ dedicated delivery vehicles, we ensure medicines reach you quickly, safely, and on schedule.",
+            description: "With <span class='font-semibold text-gray-900'>150+ dedicated delivery vehicles</span>, we ensure medicines reach you quickly, safely, and on schedule.",
             image: "/whychooseus/card-image1.avif",
             features: [
                 "Real Time Tracking",
@@ -19,7 +19,7 @@ const WhyChooseUs = () => {
         },
         {
             title: "Connecting India's Health",
-            description: "From metros to remote towns, our robust network connects pharmacies and hospitals across all of India",
+            description: "From metros to remote towns, our robust network connects pharmacies and hospitals across <span class='font-semibold text-gray-900'>all of India</span>",
             image: "/whychooseus/card-image2.avif",
             features: [
                 "24×7 supply coverage through our hubs",
@@ -49,7 +49,7 @@ const WhyChooseUs = () => {
         },
         {
             title: "Wide Product Range",
-            description: "From life-saving medicines to everyday healthcare essentials, we cover all major medical categories.",
+            description: "From life-saving medicines to everyday healthcare essentials, we cover <span class='font-semibold text-gray-900'>all major medical categories</span>.",
             image: "/whychooseus/card-image5.avif",
             features: [
                 "Branded, generic & OTC medicines",
@@ -71,7 +71,7 @@ const WhyChooseUs = () => {
     return (
         <section id="why-choose-us" ref={targetRef} className="relative h-[300vh] bg-white text-gray-900">
             <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
-                <div className="container mx-auto px-4 sm:px-10">
+                <div className="px-6 sm:px-10 lg:px-14 max-w-[1600px] mx-auto">
                     <motion.div 
                       style={{ opacity }}
                       className="text-center mb-12 max-w-3xl mx-auto"
@@ -84,38 +84,31 @@ const WhyChooseUs = () => {
                     
                     <motion.div style={{ x, width: `${cards.length * 30}%` }} className="flex gap-8">
                         {cards.map((card) => (
-                            <div key={card.title} className="flex-shrink-0 max-w-fit ">
-                                <div className="bg-white p-8 rounded-2xl shadow-lg shadow-gray-500  border border-gray-100 text-left flex justify-center items-center flex-col md:flex-row gap-2  h-full mx-4">
-                                    <div className="flex-shrink-0 w-fit p-5 bg-red-100">
-                                        <Image 
-                                            src={card.image} 
-                                            alt={card.title} 
-                                            width={350}
-                                            height={300}
-                                            className=" object-fill bg-green-200 rounded-lg"
-                                        />
+                            <div key={card.title} className="flex-shrink-0 w-[850px]">
+                                <div className="bg-white p-8 rounded-2xl shadow-lg shadow-gray-500 border border-gray-100 text-left flex flex-col lg:flex-row gap-6 items-center h-full mx-4">
+                                    <div className="flex-shrink-0 w-[300px] h-[260px]  rounded-xl">
+                                        <div className="w-full h-full  rounded-lg flex items-center justify-center p-0">
+                                            <Image 
+                                                src={card.image} 
+                                                alt={card.title} 
+                                                width={350}
+                                                height={350}
+                                                className="object-cover overflow-visible w-full h-full rounded-lg"
+                                            />
+                                        </div>
                                     </div>
-                                    <div className="flex flex-col ">
-                                        <h3 className="text-[48px] font-bricolage f mb-3 text-gray-900 leading-tight">{card.title}</h3>
-                                        <p className="text-gray-600 text-[16px] font-inter mb-5 leading-relaxed">{card.description}</p>
+                                    <div className="flex flex-col">
+                                        <h3 className="text-[50px] font-bricolage mb-3 text-gray-900 leading-tight">{card.title}</h3>
+                                        <p 
+                                            className="text-gray-600 text-[16px] font-inter mb-5 leading-relaxed"
+                                            dangerouslySetInnerHTML={{ __html: card.description }}
+                                        />
                                         
                                         <ul className="space-y-2.5 mb-6 flex-grow">
                                             {card.features.map((feature, idx) => (
-                                                <li key={idx} className="flex items-start gap-2 text-gray-900 font-normal  text-[16px]">
-                                                    <svg 
-                                                        className="w-5 h-5 text-gray-900 flex-shrink-0 mt-0.5" 
-                                                        fill="none" 
-                                                        viewBox="0 0 24 24" 
-                                                        stroke="currentColor"
-                                                    >
-                                                        <path 
-                                                            strokeLinecap="round" 
-                                                            strokeLinejoin="round" 
-                                                            strokeWidth={2} 
-                                                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" 
-                                                        />
-                                                    </svg>
-                                                    <span>{feature}</span>
+                                                <li key={idx} className="flex items-start gap-2 text-gray-900 font-normal text-[16px]">
+                                                    <LuBookmarkCheck className="w-8 h-8 text-gray-900 flex-shrink-0 mt-0.5" />
+                                                    <span className="text-gray-900 font-satoshi font-medium">{feature}</span>
                                                 </li>
                                             ))}
                                         </ul>

@@ -3,6 +3,8 @@ import React from 'react';
 import { Inter, Bricolage_Grotesque } from 'next/font/google';
 import localFont from 'next/font/local';
 import LenisProvider from '@/components/LenisProvider';
+import { Analytics } from "@vercel/analytics/next"
+
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -48,6 +50,9 @@ const satoshi = localFont({
 export const metadata = {
   title: 'Mahaveer Medi - India\'s Leading Medicine Supplier',
   description: 'With over 20 years of experience, we have built a reputation for being the leading wholesale medicine supplier in India',
+  icons: {
+    icon: '/favicon.ico',
+  },
 }
 
 export default function RootLayout({
@@ -60,6 +65,7 @@ export default function RootLayout({
       <body className={`${inter.variable} ${bricolageGrotesque.variable} ${satoshi.variable} font-sans`}>
         <LenisProvider>
           {children}
+          <Analytics />
         </LenisProvider>
       </body>
     </html>

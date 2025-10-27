@@ -22,8 +22,8 @@ const Clients = () => {
 
     return (
         <section className="py-0 bg-white text-gray-800 overflow-hidden">
-            <div className="container mx-auto text-center">
-                <motion.h2 variants={fadeInUp} className="text-[80px] font-satoshi font-medium mb-6 text-[#67B23C]">Our Clients</motion.h2>
+            <div className="max-w-[1600px] mx-auto text-center">
+                <motion.h2 variants={fadeInUp} className="text-[80px] font-satoshi font-medium mb-6 text-[#67B33C]">Our Clients</motion.h2>
                  
                  <div className="w-full overflow-hidden">
                     <motion.div

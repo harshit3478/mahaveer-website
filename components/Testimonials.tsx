@@ -17,13 +17,13 @@ const Testimonials = () => {
     return (
         <motion.section 
             id="testimonials" 
-            className="py-20 pt-10 px-4 sm:px-10 bg-white text-gray-900"
+            className="py-20 pt-10 px-6 sm:px-10 lg:px-14 bg-white text-gray-900"
             initial="initial"
             whileInView="animate"
             viewport={{ once: true, amount: 0.2 }}
             variants={staggerContainer}
         >
-            <div className="container mx-auto">
+            <div className="max-w-[1600px] mx-auto">
                 <div className="text-center mb-8">
                     <motion.p variants={fadeInUp} className="text-lg font-medium text-gray-900 max-w-3xl mx-auto">Our clients' words reflect our commitment to excellence.</motion.p>
                 </div>

@@ -55,19 +55,19 @@ const AboutUs = () => {
     return (
         <motion.section 
             id="about" 
-            className="py-20 px-4 sm:px-10 bg-white text-gray-900"
+            className="py-20 px-6 mt-6 sm:px-10 lg:px-14 bg-white text-gray-900"
             initial="initial"
             whileInView="animate"
             viewport={{ once: true, amount: 0.3 }}
             variants={staggerContainer}
         >
-            <div className="container mx-auto grid lg:grid-cols-2 gap-16 items-center">
-                <div>
-                    <motion.h2 variants={fadeInUp} className="text-[80px] font-semibold mb-6 text-[#4CAF50] leading-[1.1]">About Us</motion.h2>
-                    <motion.p variants={fadeInUp} className="text-gray-600 text-[16px] mb-4 leading-relaxed font-normal">
+            <div className="max-w-[1600px] mx-auto grid lg:grid-cols-2 gap-16 items-center">
+                <div className="-mt-24">
+                    <motion.h2 variants={fadeInUp} className="text-[80px] font-medium mb-6 text-[#4CAF50] leading-[1.1]">About Us</motion.h2>
+                    <motion.p variants={fadeInUp} className="text-gray-600 text-[20px] mb-4 leading-relaxed font-normal">
                         <span className="font-semibold text-gray-900">Mahaveer Medi-Sales Pvt. Ltd. (MMSPL)</span> has been a leading pharma distributor in Bengaluru for over two decades. With a robust network, we partner with <span className="font-semibold text-gray-900">280+</span> pharmaceutical companies and <span className="font-semibold text-gray-900">1500</span> divisions, serving <span className="font-semibold text-gray-900">10,000</span> chemists, hospitals, and government institutions daily.
                     </motion.p>
-                    <motion.p variants={fadeInUp} className="text-gray-600 text-[16px] mb-12 leading-relaxed font-normal">
+                    <motion.p variants={fadeInUp} className="text-gray-600 text-[20px] mb-12 leading-relaxed font-normal">
                         We take pride in being the <span className="font-semibold text-gray-900">first digitalized distributor</span> in the pharma industry, driving innovation and excellence in pharmaceutical trade.
                     </motion.p>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">

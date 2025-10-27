@@ -25,7 +25,7 @@ const Button: React.FC<ButtonProps> = ({
   const baseClasses = "relative overflow-hidden font-medium py-3 px-8 rounded-full transition-all duration-300 inline-flex items-center gap-2 group";
   
   const variantClasses = {
-    primary: "bg-[#4ADE80] text-white ",
+    primary: "bg-[#67B33C] text-white ",
     secondary: "bg-gray-900 text-white ",
     accent: "bg-[#00A3E0] text-white ",
   };
@@ -42,9 +42,18 @@ const Button: React.FC<ButtonProps> = ({
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
     >
-      <span className="relative z-10">{children}</span>
+      {/* Text - Slides to left on hover */}
+      <motion.span 
+        className="relative z-10"
+        animate={{ 
+          x: isHovered ? -8 : 0
+        }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+      >
+        {children}
+      </motion.span>
       
-      {/* Arrow Icon - Slides in from left */}
+      {/* Arrow Icon - Slides in from right */}
       <motion.svg 
         xmlns="http://www.w3.org/2000/svg" 
         fill="none" 
@@ -52,9 +61,9 @@ const Button: React.FC<ButtonProps> = ({
         strokeWidth={2.5} 
         stroke="currentColor" 
         className="w-5 h-5 relative z-10"
-        initial={{ x: 20, opacity: 0 }}
+        initial={{ x: -10, opacity: 0 }}
         animate={{ 
-          x: isHovered ? 0 : 20,
+          x: isHovered ? 0 : -10,
           opacity: isHovered ? 1 : 0
         }}
         transition={{ duration: 0.3, ease: "easeOut" }}
@@ -62,23 +71,21 @@ const Button: React.FC<ButtonProps> = ({
         <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
       </motion.svg>
 
-      {/* Circular green background animation from bottom edge center */}
+      {/* Elliptical background animation from bottom edge center */}
       <motion.div
-        className="absolute bg-[#6db544]"
+        className="absolute bg-[#6db544] rounded-full"
         initial={{ scale: 0 }}
         animate={{ 
-          scale: isHovered ? 3 : 0
+          scale: isHovered ? 2.5 : 0
         }}
         transition={{ duration: 0.4, ease: "easeOut" }}
         style={{ 
           zIndex: 0,
-          width: '100%',
-          height: '100%',
-          borderRadius: '15%',
+          width: '200%',
+          height: '200%',
           left: '50%',
           top: '100%',
-          transform: 'translate(-50%, -50%)',
-          transformOrigin: 'center center'
+          transform: 'translate(-50%, -50%)'
         }}
       />
     </Component>

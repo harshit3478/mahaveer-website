@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import Image from 'next/image';
-import { staggerContainer, textReveal, fadeInUpSubtle } from '@/lib/animations';
+import { staggerContainer, wordReveal, slideUpFromBottom, slideFromLeft, slideFromRight } from '@/lib/animations';
 import { useCountAnimation } from '@/lib/hooks';
 import Button from '@/components/ui/Button';
 
@@ -15,48 +15,73 @@ const StarIcon = ({ className }: { className?: string }) => (
 );
 
 const Hero = () => {
+  // Split text into words for word-by-word animation
+  const headlineWords = "We are India's Leading".split(' ');
+  const titleWords = "Medicine Supplier".split(' ');
+  
   return (
-    <section className="relative h-[85vh] flex items-center justify-start text-white overflow-hidden">
+    <section className="relative h-[88vh] flex items-end justify-start text-white overflow-hidden  ">
         <video 
             autoPlay 
             loop 
             muted 
             playsInline
-            className="absolute z-0 w-full h-full object-cover"
+            className="absolute z-0 object-cover h-full w-full bg-red-500"
         >
             <source src="/video.mp4" type="video/mp4" />
             Your browser does not support the video tag.
         </video>
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent z-10 "></div>
         <motion.div 
-            className="z-20 px-8 sm:px-16 lg:px-24 max-w-3xl"
+            className="z-20 px-6 py-20 sm:px-10 lg:px-14 max-w-3xl"
             variants={staggerContainer}
             initial="initial"
             animate="animate"
         >
-            <motion.p 
-                variants={textReveal}
-                className="text-[48px] md:text-base text-white/90 mb-3 font-normal tracking-normal"
-            >
-                We are India's Leading
+            {/* Word-by-word reveal for headline */}
+            <motion.p className="text-[48px] text-white/90 font-normal tracking-normal">
+                {headlineWords.map((word, index) => (
+                    <motion.span
+                        key={index}
+                        variants={wordReveal}
+                        className="inline-block mr-3"
+                    >
+                        {word}
+                    </motion.span>
+                ))}
             </motion.p>
-            <motion.h1 
-                variants={textReveal}
-                className="text-[80px] md:text-[64px] lg:text-[72px] font-bold mb-5 leading-[1.1] tracking-tight"
-            >
-                Medicine Supplier
+            
+            {/* Word-by-word reveal for main title */}
+            <motion.h1 className="text-[80px] md:text-[64px] lg:text-[72px] font-bold mb-5 leading-[1.1] tracking-tight">
+                {titleWords.map((word, index) => (
+                    <motion.span
+                        key={index}
+                        variants={wordReveal}
+                        className="inline-block mr-4"
+                    >
+                        {word}
+                    </motion.span>
+                ))}
             </motion.h1>
+            
+            {/* Slide up from bottom */}
             <motion.p 
-                variants={fadeInUpSubtle}
-                className="text-[18px] md:text-[16px] max-w-lg text-white/90 mb-8 leading-relaxed font-normal"
+                variants={slideUpFromBottom}
+                className="text-[18px] max-w-lg text-white/90 mb-8 leading-relaxed font-normal"
             >
                 With over 20 years of experience, we have built a reputation for being the leading wholesale medicine supplier in India
             </motion.p>
-            <motion.div variants={fadeInUpSubtle} className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
-                <Button href="#get-a-quote" variant="accent">
-                    Partner With Us
-                </Button>
-                <div className="flex items-center gap-3">
+            
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+                {/* Button slides from left */}
+                <motion.div variants={slideFromLeft}>
+                    <Button href="#get-a-quote" variant="accent">
+                        Partner With Us
+                    </Button>
+                </motion.div>
+                
+                {/* Reviews slide from right */}
+                <motion.div variants={slideFromRight} className="flex items-center gap-3">
                     <div className="flex -space-x-2">
                         <Image src="/review1.avif" alt="Reviewer 1" width={40} height={40} className="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover"/>
                         <Image src="/review2.avif" alt="Reviewer 2" width={40} height={40} className="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover"/>
@@ -68,8 +93,8 @@ const Hero = () => {
                         </div>
                         <p className="text-[13px] text-white/90 font-medium">From 2000+ ratings</p>
                     </div>
-                </div>
-            </motion.div>
+                </motion.div>
+            </div>
         </motion.div>
     </section>
   );
