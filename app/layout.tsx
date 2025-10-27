@@ -2,6 +2,7 @@ import './globals.css';
 import React from 'react';
 import { Inter, Bricolage_Grotesque } from 'next/font/google';
 import localFont from 'next/font/local';
+import LenisProvider from '@/components/LenisProvider';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -57,7 +58,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${bricolageGrotesque.variable} ${satoshi.variable} font-sans`}>
-        {children}
+        <LenisProvider>
+          {children}
+        </LenisProvider>
       </body>
     </html>
   )

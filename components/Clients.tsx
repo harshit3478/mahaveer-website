@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { motion, Variants } from 'framer-motion';
+import { fadeInUp } from '@/lib/animations';
 
 const Clients = () => {
     const logos = ["LogoIpsum", "Client Co", "Pharma Inc", "Health Partner", "MediCorp", "Supply Solutions", "Well Group"];
@@ -20,17 +21,10 @@ const Clients = () => {
     };
 
     return (
-        <section className="py-20 bg-white text-gray-800 overflow-hidden">
+        <section className="py-0 bg-white text-gray-800 overflow-hidden">
             <div className="container mx-auto text-center">
-                 <motion.h2 
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    className="text-4xl md:text-5xl font-bold mb-12"
-                >
-                    Our Clients
-                </motion.h2>
+                <motion.h2 variants={fadeInUp} className="text-[80px] font-satoshi font-medium mb-6 text-[#67B23C]">Our Clients</motion.h2>
+                 
                  <div className="w-full overflow-hidden">
                     <motion.div
                         className="flex whitespace-nowrap"

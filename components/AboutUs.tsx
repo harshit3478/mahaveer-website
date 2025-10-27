@@ -63,7 +63,7 @@ const AboutUs = () => {
         >
             <div className="container mx-auto grid lg:grid-cols-2 gap-16 items-center">
                 <div>
-                    <motion.h2 variants={fadeInUp} className="text-[56px] font-bold mb-6 text-[#4CAF50] leading-[1.1]">About Us</motion.h2>
+                    <motion.h2 variants={fadeInUp} className="text-[80px] font-semibold mb-6 text-[#4CAF50] leading-[1.1]">About Us</motion.h2>
                     <motion.p variants={fadeInUp} className="text-gray-600 text-[16px] mb-4 leading-relaxed font-normal">
                         <span className="font-semibold text-gray-900">Mahaveer Medi-Sales Pvt. Ltd. (MMSPL)</span> has been a leading pharma distributor in Bengaluru for over two decades. With a robust network, we partner with <span className="font-semibold text-gray-900">280+</span> pharmaceutical companies and <span className="font-semibold text-gray-900">1500</span> divisions, serving <span className="font-semibold text-gray-900">10,000</span> chemists, hospitals, and government institutions daily.
                     </motion.p>

@@ -16,7 +16,7 @@ const StarIcon = ({ className }: { className?: string }) => (
 
 const Hero = () => {
   return (
-    <section className="relative h-[92vh] flex items-center justify-start text-white overflow-hidden">
+    <section className="relative h-[85vh] flex items-center justify-start text-white overflow-hidden">
         <video 
             autoPlay 
             loop 
@@ -36,19 +36,19 @@ const Hero = () => {
         >
             <motion.p 
                 variants={textReveal}
-                className="text-[15px] md:text-base text-white/90 mb-3 font-normal tracking-normal"
+                className="text-[48px] md:text-base text-white/90 mb-3 font-normal tracking-normal"
             >
                 We are India's Leading
             </motion.p>
             <motion.h1 
                 variants={textReveal}
-                className="text-[56px] md:text-[64px] lg:text-[72px] font-bold mb-5 leading-[1.1] tracking-tight"
+                className="text-[80px] md:text-[64px] lg:text-[72px] font-bold mb-5 leading-[1.1] tracking-tight"
             >
                 Medicine Supplier
             </motion.h1>
             <motion.p 
                 variants={fadeInUpSubtle}
-                className="text-[15px] md:text-[16px] max-w-lg text-white/90 mb-8 leading-relaxed font-normal"
+                className="text-[18px] md:text-[16px] max-w-lg text-white/90 mb-8 leading-relaxed font-normal"
             >
                 With over 20 years of experience, we have built a reputation for being the leading wholesale medicine supplier in India
             </motion.p>
@@ -66,7 +66,7 @@ const Hero = () => {
                         <div className="flex text-yellow-400 mb-0.5">
                             <StarIcon /> <StarIcon /> <StarIcon /> <StarIcon /> <StarIcon />
                         </div>
-                        <p className="text-[13px] text-white/90 font-normal">From 2000+ ratings</p>
+                        <p className="text-[13px] text-white/90 font-medium">From 2000+ ratings</p>
                     </div>
                 </div>
             </motion.div>

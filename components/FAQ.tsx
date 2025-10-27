@@ -20,13 +20,13 @@ const MinusIcon = ({ className }: { className?: string }) => (
 const FAQItem: React.FC<{ question: string; answer: string }> = ({ question, answer }) => {
     const [isOpen, setIsOpen] = useState(false);
     return (
-        <div className="border-b border-gray-200 py-6">
+        <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-4">
             <motion.button
-                className="w-full flex justify-between items-center text-left text-xl font-semibold text-gray-900"
+                className="w-full flex justify-between items-center text-left text-lg md:text-xl font-satoshi font-medium text-gray-900"
                 onClick={() => setIsOpen(!isOpen)}
                 whileTap={{ scale: 0.98 }}
             >
-                <span>{question}</span>
+                <span className="pr-4">{question}</span>
                 <AnimatePresence initial={false} mode="wait">
                     <motion.div
                         key={isOpen ? 'minus' : 'plus'}
@@ -34,8 +34,9 @@ const FAQItem: React.FC<{ question: string; answer: string }> = ({ question, ans
                         animate={{ rotate: 0, opacity: 1 }}
                         exit={{ rotate: isOpen ? 90 : -90, opacity: 0 }}
                         transition={{ duration: 0.2 }}
+                        className="flex-shrink-0"
                     >
-                        {isOpen ? <MinusIcon className="w-6 h-6 text-[#4ADE80]" /> : <PlusIcon className="w-6 h-6 text-[#4ADE80]" />}
+                        {isOpen ? <MinusIcon className="w-6 h-6 text-gray-900" /> : <PlusIcon className="w-6 h-6 text-gray-900" />}
                     </motion.div>
                 </AnimatePresence>
             </motion.button>
@@ -48,7 +49,7 @@ const FAQItem: React.FC<{ question: string; answer: string }> = ({ question, ans
                         transition={{ duration: 0.3, ease: 'easeInOut' }}
                         className="overflow-hidden"
                     >
-                        <p className="text-gray-600">{answer}</p>
+                        <p className="text-gray-600 text-base font-satoshi leading-relaxed">{answer}</p>
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -68,25 +69,41 @@ const FAQ = () => {
     ];
     return (
         <motion.section 
-            className="py-20 px-4 sm:px-10 bg-[#F9FAFB] text-gray-900"
+            id="faq"
+            className="py-20 px-4 sm:px-10 bg-white text-gray-900"
             initial="initial"
             whileInView="animate"
             viewport={{ once: true, amount: 0.2 }}
             variants={staggerContainer}
         >
-            <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-start">
-                <motion.div variants={fadeInUp}>
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#4ADE80]">Answering your questions</h2>
-                    <p className="text-lg text-gray-500 mb-6">Got more questions? Send us your enquiry below.</p>
-                    <Button href="#get-a-quote" variant="secondary">
-                        Contact us
-                    </Button>
-                </motion.div>
-                <motion.div variants={fadeInUp}>
-                    {faqs.map((faq, index) => (
-                        <FAQItem key={index} question={faq.q} answer={faq.a} />
-                    ))}
-                </motion.div>
+            <div className="container mx-auto">
+                {/* Desktop: 2 columns with sticky right side, Mobile: FAQ items first, then centered heading */}
+                <div className="flex flex-col-reverse lg:flex-row lg:grid lg:grid-cols-12 gap-12 items-start">
+                    {/* FAQ Items - Left side on desktop, top on mobile */}
+                    <motion.div variants={fadeInUp} className="lg:col-span-7">
+                        {faqs.map((faq, index) => (
+                            <FAQItem key={index} question={faq.q} answer={faq.a} />
+                        ))}
+                    </motion.div>
+                    
+                    {/* Sticky Heading - Right side on desktop, bottom centered on mobile */}
+                    <motion.div 
+                        variants={fadeInUp} 
+                        className="lg:col-span-5 lg:sticky lg:top-24 text-center lg:text-left"
+                    >
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-[#67B23C]">
+                            Answering your questions
+                        </h2>
+                        <p className="text-base md:text-lg text-gray-500 mb-6">
+                            Got more questions? Send us your enquiry below
+                        </p>
+                        <div className="flex justify-center lg:justify-start">
+                            <Button href="#get-a-quote" variant="secondary">
+                                Contact us
+                            </Button>
+                        </div>
+                    </motion.div>
+                </div>
             </div>
         </motion.section>
     );
