@@ -20,6 +20,21 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
     }
 
     requestAnimationFrame(raf);
+    // Expose Lenis for hooks (read-only usage)
+    ;(window as any).__LENIS__ = lenis;
+
+    // Measure header height for dynamic anchor offset
+    let headerHeight = 0;
+    const measureHeader = () => {
+      const header = document.querySelector('header');
+      headerHeight = header ? (header as HTMLElement).offsetHeight : 0;
+      document.documentElement.style.setProperty('--header-h', `${headerHeight}px`);
+    };
+    measureHeader();
+    const resizeObserver = new ResizeObserver(measureHeader);
+    const headerEl = document.querySelector('header');
+    if (headerEl) resizeObserver.observe(headerEl as Element);
+    window.addEventListener('resize', measureHeader);
 
     // Handle anchor link clicks for smooth scrolling
     const handleAnchorClick = (e: MouseEvent) => {
@@ -35,7 +50,7 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
           
           if (targetElement) {
             lenis.scrollTo(targetElement, {
-              offset: -80, // Offset for fixed header
+              offset: -(headerHeight + 8),
               duration: 1.0,
             });
           }
@@ -46,8 +61,11 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
     document.addEventListener('click', handleAnchorClick);
 
     return () => {
+      ;(window as any).__LENIS__ = undefined;
       lenis.destroy();
       document.removeEventListener('click', handleAnchorClick);
+      window.removeEventListener('resize', measureHeader);
+      try { resizeObserver.disconnect(); } catch {}
     };
   }, []);
 

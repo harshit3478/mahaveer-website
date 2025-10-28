@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { staggerContainer, fadeInUp } from '@/lib/animations';
+import MotionInView from '@/components/MotionInView';
+import { slideY, slideYUp } from '@/lib/animPresets';
 import { SealCheck, House, Package, Cpu, Truck, ThumbsUp, ArrowRight } from '@phosphor-icons/react';
 
 const ServiceIcons: { [key: string]: any } = {
@@ -80,11 +82,17 @@ const Services = () => {
             variants={staggerContainer}
         >
             <div className="max-w-[1600px] mx-auto text-center">
-                <motion.h2 variants={fadeInUp} className="text-[60px] font-medium mb-1 text-[#009ED6] leading-[1.1] font-satoshi">Our Services</motion.h2>
-                <motion.p variants={fadeInUp} className="text-slate-500 text-[15px] font-normal font-inter mb-10 ">More than just services, this is our promise of partnership and excellence.</motion.p>
+                <MotionInView variantsDown={slideY(28)} variantsUp={slideYUp(28)} once={false}>
+                    <motion.h2 className="text-fluid-h2 font-medium mb-1 text-[#009ED6] leading-[1.1] font-satoshi">Our Services</motion.h2>
+                </MotionInView>
+                <MotionInView variantsDown={slideY(16)} variantsUp={slideYUp(16)} once={false}>
+                    <motion.p className="text-slate-500 text-fluid-lead font-normal font-inter mb-10 ">More than just services, this is our promise of partnership and excellence.</motion.p>
+                </MotionInView>
                 <motion.div variants={staggerContainer} className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
                     {services.map(service => (
-                        <ServiceCard key={service.name} service={service} />
+                        <MotionInView key={service.name} variantsDown={slideY(20)} variantsUp={slideYUp(20)} once={false}>
+                            <ServiceCard service={service} />
+                        </MotionInView>
                     ))}
                 </motion.div>
             </div>

@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { staggerContainer, fadeInUp } from '@/lib/animations';
+import MotionInView from '@/components/MotionInView';
+import { slideY, slideYUp } from '@/lib/animPresets';
 import Button from '@/components/ui/Button';
 
 const PlusIcon = ({ className }: { className?: string }) => (
@@ -82,7 +84,9 @@ const FAQ = () => {
                     {/* FAQ Items - Left side on desktop, top on mobile */}
                     <motion.div variants={fadeInUp} className="lg:col-span-7">
                         {faqs.map((faq, index) => (
-                            <FAQItem key={index} question={faq.q} answer={faq.a} />
+                            <MotionInView key={index} variantsDown={slideY(16)} variantsUp={slideYUp(16)} once={false}>
+                              <FAQItem question={faq.q} answer={faq.a} />
+                            </MotionInView>
                         ))}
                     </motion.div>
                     
@@ -91,17 +95,30 @@ const FAQ = () => {
                         variants={fadeInUp} 
                         className="lg:col-span-5 lg:sticky lg:top-24 text-center lg:text-left"
                     >
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-[#67B33C]">
-                            Answering your questions
-                        </h2>
-                        <p className="text-base md:text-lg text-gray-500 mb-6">
-                            Got more questions? Send us your enquiry below
-                        </p>
+                                                <MotionInView variantsDown={slideY(24)} variantsUp={slideYUp(24)} once={false}>
+                                                    <h2 className="text-fluid-h2 font-bold mb-4 text-[#67B33C]">Answering your questions</h2>
+                                                </MotionInView>
+                                                <MotionInView variantsDown={slideY(16)} variantsUp={slideYUp(16)} once={false}>
+                                                    <p className="text-fluid-lead text-gray-500 mb-6">Got more questions? Send us your enquiry below</p>
+                                                </MotionInView>
                         <div className="flex justify-center lg:justify-start">
-                            <Button href="#get-a-quote" variant="secondary">
-                                Contact us
-                            </Button>
+                            <Button href="#get-a-quote" variant="secondary">Contact us</Button>
                         </div>
+                        {/* FAQPage JSON-LD for SEO */}
+                        <script
+                          type="application/ld+json"
+                          dangerouslySetInnerHTML={{
+                            __html: JSON.stringify({
+                              '@context': 'https://schema.org',
+                              '@type': 'FAQPage',
+                              mainEntity: faqs.map(({ q, a }) => ({
+                                '@type': 'Question',
+                                name: q,
+                                acceptedAnswer: { '@type': 'Answer', text: a },
+                              })),
+                            }),
+                          }}
+                        />
                     </motion.div>
                 </div>
             </div>

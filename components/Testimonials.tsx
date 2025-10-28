@@ -3,6 +3,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { staggerContainer, fadeInUp } from '@/lib/animations';
+import MotionInView from '@/components/MotionInView';
+import ScrollCapture from '@/components/ScrollCapture';
+import { slideY, slideYUp } from '@/lib/animPresets';
 import Clients from './Clients';
 
 const Testimonials = () => {
@@ -25,24 +28,52 @@ const Testimonials = () => {
         >
             <div className="max-w-[1600px] mx-auto">
                 <div className="text-center mb-8">
-                    <motion.p variants={fadeInUp} className="text-lg font-medium text-gray-900 max-w-3xl mx-auto">Our clients' words reflect our commitment to excellence.</motion.p>
+                    <MotionInView variantsDown={slideY(20)} variantsUp={slideYUp(20)} once={false}>
+                      <motion.p className="text-fluid-lead font-medium text-gray-900 max-w-3xl mx-auto">Our clients' words reflect our commitment to excellence.</motion.p>
+                    </MotionInView>
                 </div>
-                <motion.div variants={staggerContainer} className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+
+                {/* Mobile: horizontal scroll-snap list with subtle animations */}
+                                                <ScrollCapture className="md:hidden px-6 overflow-x-auto snap-x snap-mandatory flex gap-4 pb-2 touch-pan-x">
                     {testimonials.map(t => (
-                        <motion.div 
-                            key={t.name} 
-                            variants={fadeInUp}
-                            className="bg-[#F5F5F5] p-8 rounded-2xl flex flex-col h-full"
-                        >
-                            <p className="text-gray-700 mb-8 flex-grow text-base leading-relaxed">{t.quote}</p>
-                            <div className="flex items-center mt-auto">
-                                <img src={t.avatar} alt={t.name} className="w-14 h-14 rounded-full mr-4 object-cover"/>
-                                <div>
-                                    <p className="font-semibold text-gray-900 text-base">{t.name}</p>
-                                    <p className="text-gray-600 text-sm">{t.company}</p>
+                        <div key={t.name} className="snap-center scroll-ml-6 flex-shrink-0 w-[84vw]">
+                            <motion.div 
+                                initial={{ opacity: 0.6, scale: 0.98, y: 8 }}
+                                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                                viewport={{ once: false, amount: 0.6 }}
+                                transition={{ duration: 0.35, ease: 'easeOut' }}
+                                className="bg-[#F5F5F5] p-6 rounded-2xl flex flex-col h-full"
+                            >
+                                <p className="text-gray-700 mb-6 flex-grow text-base leading-relaxed">{t.quote}</p>
+                                <div className="flex items-center mt-auto">
+                                    <img src={t.avatar} alt={t.name} className="w-12 h-12 rounded-full mr-4 object-cover"/>
+                                    <div>
+                                        <p className="font-semibold text-gray-900 text-base">{t.name}</p>
+                                        <p className="text-gray-600 text-sm">{t.company}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </motion.div>
+                            </motion.div>
+                        </div>
+                    ))}
+                </ScrollCapture>
+
+                {/* Tablet/Desktop grid */}
+                <motion.div variants={staggerContainer} className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+                    {testimonials.map(t => (
+                        <MotionInView key={t.name} variantsDown={slideY(20)} variantsUp={slideYUp(20)} once={false}>
+                          <motion.div 
+                              className="bg-[#F5F5F5] p-8 rounded-2xl flex flex-col h-full"
+                          >
+                              <p className="text-gray-700 mb-8 flex-grow text-base leading-relaxed">{t.quote}</p>
+                              <div className="flex items-center mt-auto">
+                                  <img src={t.avatar} alt={t.name} className="w-14 h-14 rounded-full mr-4 object-cover"/>
+                                  <div>
+                                      <p className="font-semibold text-gray-900 text-base">{t.name}</p>
+                                      <p className="text-gray-600 text-sm">{t.company}</p>
+                                  </div>
+                              </div>
+                          </motion.div>
+                        </MotionInView>
                     ))}
                 </motion.div>
             </div>

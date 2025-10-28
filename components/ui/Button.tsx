@@ -22,7 +22,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   const [isHovered, setIsHovered] = React.useState(false);
 
-  const baseClasses = "relative overflow-hidden font-medium py-3 px-8 rounded-full transition-all duration-300 inline-flex items-center gap-2 group";
+  const baseClasses = "relative overflow-hidden font-medium py-3 px-6 sm:px-8 rounded-full transition-all duration-300 inline-flex items-center gap-2 group";
   
   const variantClasses = {
     primary: "bg-[#67B33C] text-white ",

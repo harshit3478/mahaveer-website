@@ -4,6 +4,9 @@ import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import Button from '@/components/ui/Button';
+import ScrollCapture from '@/components/ScrollCapture';
+import MotionInView from '@/components/MotionInView';
+import { slideY, slideYUp } from '@/lib/animPresets';
 import { LuBookmarkCheck } from "react-icons/lu";
 const WhyChooseUs = () => {
     const cards = [
@@ -69,19 +72,65 @@ const WhyChooseUs = () => {
     const opacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [1, 1, 1, 0]);
 
     return (
-        <section id="why-choose-us" ref={targetRef} className="relative h-[300vh] bg-white text-gray-900">
-            <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
-                <div className="px-6 sm:px-10 lg:px-14 max-w-[1600px] mx-auto">
-                    <motion.div 
-                      style={{ opacity }}
-                      className="text-center mb-12 max-w-3xl mx-auto"
-                    >
-                        <h2 className="text-[80px] font-medium mb-3 text-[#009ED6] leading-[1.1] font-satoshi ">Why Choose Us?</h2>
-                        <p className="text-slate-500 text-[20px] font-normal font-inter ">
-                            Because reliable healthcare needs a <span className="font-medium text-slate-800">reliable partner</span>.
-                        </p>
+        <section id="why-choose-us" ref={targetRef} className="relative bg-white text-gray-900 md:h-[300vh]">
+            {/* Mobile: horizontal scroll-snap carousel */}
+            <div className="md:hidden py-16">
+                <div className="px-6 sm:px-10 max-w-[1200px] mx-auto">
+                    <div className="text-left mb-8">
+                        <h2 className="text-fluid-h2 font-medium mb-2 text-[#009ED6] leading-[1.15] font-satoshi">Why Choose Us?</h2>
+                        <p className="text-slate-600 text-base sm:text-lg font-inter">Because reliable healthcare needs a <span className="font-medium text-slate-800">reliable partner</span>.</p>
+                    </div>
+                </div>
+                {/* Mobile: horizontal scroll capture to encourage swiping through */}
+                <ScrollCapture className="px-6 overflow-x-auto snap-x snap-mandatory flex gap-4 pb-6">
+                    {cards.map((card) => (
+                        <div key={card.title} className="snap-center scroll-ml-6 flex-shrink-0 w-[86vw] sm:w-[80vw]">
+                            <div className="bg-white p-5 rounded-2xl shadow-lg shadow-gray-200 border border-gray-100 text-left flex flex-col gap-5 h-full">
+                                <div className="w-full h-[200px] rounded-xl overflow-hidden">
+                                    <Image
+                                        src={card.image}
+                                        alt={card.title}
+                                        width={800}
+                                        height={600}
+                                        className="object-cover w-full h-full"
+                                    />
+                                </div>
+                                <div className="flex flex-col">
+                                    <h3 className="text-2xl sm:text-3xl font-bricolage mb-2 text-gray-900 leading-tight">{card.title}</h3>
+                                    <p
+                                        className="text-gray-600 text-[15px] sm:text-base font-inter mb-4 leading-relaxed"
+                                        dangerouslySetInnerHTML={{ __html: card.description }}
+                                    />
+                                    <ul className="space-y-2 mb-5">
+                                        {card.features.map((feature, idx) => (
+                                            <li key={idx} className="flex items-start gap-2 text-gray-900 text-[15px]">
+                                                <LuBookmarkCheck className="w-6 h-6 text-gray-900 flex-shrink-0 mt-0.5" />
+                                                <span className="font-satoshi font-medium">{feature}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    <Button href="#get-a-quote" variant="primary" className="text-[14px] rounded-full w-fit px-3 py-2">
+                                        Learn More
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
+            ))}
+        </ScrollCapture>
+            </div>
+
+            {/* Desktop/Tablet: existing sticky horizontal scrollytelling */}
+            <div className="hidden md:block sticky top-0 h-screen">
+                <div className="px-6 sm:px-10 lg:px-14 max-w-[1600px] mx-auto h-full flex flex-col justify-center overflow-hidden">
+                    <motion.div style={{ opacity }} className="text-center mb-12 max-w-3xl mx-auto">
+                        <MotionInView variantsDown={slideY(24)} variantsUp={slideYUp(24)} once={false}>
+                            <h2 className="text-[80px] font-medium mb-3 text-[#009ED6] leading-[1.1] font-satoshi ">Why Choose Us?</h2>
+                        </MotionInView>
+                        <MotionInView variantsDown={slideY(16)} variantsUp={slideYUp(16)} once={false}>
+                            <p className="text-slate-500 text-[20px] font-normal font-inter ">Because reliable healthcare needs a <span className="font-medium text-slate-800">reliable partner</span>.</p>
+                        </MotionInView>
                     </motion.div>
-                    
+
                     <motion.div style={{ x, width: `${cards.length * 30}%` }} className="flex gap-8">
                         {cards.map((card) => (
                             <div key={card.title} className="flex-shrink-0 w-[850px]">

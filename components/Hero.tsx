@@ -4,6 +4,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import Image from 'next/image';
 import { staggerContainer, wordReveal, slideUpFromBottom, slideFromLeft, slideFromRight } from '@/lib/animations';
+import MotionInView from '@/components/MotionInView';
+import { slideY, slideYUp, textRevealWords } from '@/lib/animPresets';
 import { useCountAnimation } from '@/lib/hooks';
 import Button from '@/components/ui/Button';
 
@@ -26,6 +28,8 @@ const Hero = () => {
             loop 
             muted 
             playsInline
+            preload="metadata"
+            poster="/aboutUs/side-image4.avif"
             className="absolute z-0 object-cover h-full w-full bg-red-500"
         >
             <source src="/video.mp4" type="video/mp4" />
@@ -38,41 +42,32 @@ const Hero = () => {
             initial="initial"
             animate="animate"
         >
-            {/* Word-by-word reveal for headline */}
-            <motion.p className="text-[48px] text-white/90 font-normal tracking-normal">
-                {headlineWords.map((word, index) => (
-                    <motion.span
-                        key={index}
-                        variants={wordReveal}
-                        className="inline-block mr-3"
-                    >
-                        {word}
-                    </motion.span>
-                ))}
-            </motion.p>
+                        {/* Word-by-word reveal for headline with re-trigger */}
+                        <MotionInView variantsDown={slideY(24)} variantsUp={slideYUp(24)} once={false} amount={0.4} className="mb-1">
+                            <motion.p className="text-fluid-h2 text-white/90 font-normal tracking-normal" variants={textRevealWords().container}>
+                                {headlineWords.map((word, index) => (
+                                    <motion.span key={index} variants={textRevealWords().item} className="inline-block mr-3">{word}</motion.span>
+                                ))}
+                            </motion.p>
+                        </MotionInView>
             
-            {/* Word-by-word reveal for main title */}
-            <motion.h1 className="text-[80px] md:text-[64px] lg:text-[72px] font-bold mb-5 leading-[1.1] tracking-tight">
-                {titleWords.map((word, index) => (
-                    <motion.span
-                        key={index}
-                        variants={wordReveal}
-                        className="inline-block mr-4"
-                    >
-                        {word}
-                    </motion.span>
-                ))}
-            </motion.h1>
+                        {/* Word-by-word reveal for main title with re-trigger */}
+                        <MotionInView variantsDown={slideY(28)} variantsUp={slideYUp(28)} once={false} amount={0.35}>
+                            <motion.h1 className="text-fluid-h1 font-bold mb-5 leading-[1.1] tracking-tight" variants={textRevealWords().container}>
+                                {titleWords.map((word, index) => (
+                                    <motion.span key={index} variants={textRevealWords().item} className="inline-block mr-4">{word}</motion.span>
+                                ))}
+                            </motion.h1>
+                        </MotionInView>
             
             {/* Slide up from bottom */}
-            <motion.p 
-                variants={slideUpFromBottom}
-                className="text-[18px] max-w-lg text-white/90 mb-8 leading-relaxed font-normal"
-            >
-                With over 20 years of experience, we have built a reputation for being the leading wholesale medicine supplier in India
-            </motion.p>
+                        <MotionInView variantsDown={slideY(20)} variantsUp={slideYUp(20)} once={false}>
+                            <motion.p className="text-fluid-lead max-w-lg text-white/90 mb-8 leading-relaxed font-normal">
+                                With over 20 years of experience, we have built a reputation for being the leading wholesale medicine supplier in India
+                            </motion.p>
+                        </MotionInView>
             
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+            <MotionInView variantsDown={slideY(24)} variantsUp={slideYUp(24)} once={false} className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
                 {/* Button slides from left */}
                 <motion.div variants={slideFromLeft}>
                     <Button href="#get-a-quote" variant="accent">
@@ -94,7 +89,7 @@ const Hero = () => {
                         <p className="text-[13px] text-white/90 font-medium">From 2000+ ratings</p>
                     </div>
                 </motion.div>
-            </div>
+            </MotionInView>
         </motion.div>
     </section>
   );

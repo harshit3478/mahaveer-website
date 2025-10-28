@@ -62,7 +62,32 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        {/* Preload hero poster image to improve LCP while avoiding heavy video preloads */}
+        <link rel="preload" as="image" href="/aboutUs/side-image4.avif" type="image/avif" />
+      </head>
       <body className={`${inter.variable} ${bricolageGrotesque.variable} ${satoshi.variable} font-sans`}>
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              name: 'Mahaveer Medi-Sales Pvt. Ltd.',
+              url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.mahaveermedi.com',
+              logo: '/mahaveer-logo.avif',
+              sameAs: [],
+              contactPoint: [{
+                '@type': 'ContactPoint',
+                contactType: 'customer support',
+                telephone: '+91-8046655000',
+                areaServed: 'IN',
+                availableLanguage: ['en', 'hi'],
+              }],
+            }),
+          }}
+        />
         <LenisProvider>
           {children}
           <Analytics />
