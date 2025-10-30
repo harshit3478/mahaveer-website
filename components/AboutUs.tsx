@@ -9,7 +9,7 @@ import { useCountAnimation } from '@/lib/hooks';
 // Counter component with animation
 const StatCounter = ({ end, label, icon }: { end: number; label: string; icon: string }) => {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, amount: 0.5 });
+    const isInView = useInView(ref, { once: false, amount: 0.5 });
     const [hasStarted, setHasStarted] = useState(false);
     const { displayValue, startCount } = useCountAnimation(end, 2);
 
@@ -17,6 +17,9 @@ const StatCounter = ({ end, label, icon }: { end: number; label: string; icon: s
         if (isInView && !hasStarted) {
             setHasStarted(true);
             startCount();
+        } else if (!isInView && hasStarted) {
+            // Reset when out of view so it can re-trigger
+            setHasStarted(false);
         }
     }, [isInView, hasStarted, startCount]);
 
@@ -58,7 +61,7 @@ const AboutUs = () => {
             className="py-20 px-6 mt-6 sm:px-10 lg:px-14 bg-white text-gray-900"
             initial="initial"
             whileInView="animate"
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: false, amount: 0.3 }}
             variants={staggerContainer}
         >
         <div>

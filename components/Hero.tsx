@@ -23,14 +23,25 @@ const Hero = () => {
   
   return (
     <section className="relative h-[88vh] flex items-end justify-start text-white overflow-hidden  ">
+        {/* Poster image as background - always visible */}
+        <div className="absolute inset-0 z-0">
+            <Image 
+                src="/aboutUs/side-image4.avif" 
+                alt="Hero background"
+                fill
+                className="object-cover"
+                priority
+            />
+        </div>
+        
+        {/* Video plays on top of poster */}
         <video 
             autoPlay 
             loop 
             muted 
             playsInline
             preload="metadata"
-            poster="/aboutUs/side-image4.avif"
-            className="absolute z-0 object-cover h-full w-full bg-red-500"
+            className="absolute z-[1] object-cover h-full w-full"
         >
             <source src="/video.mp4" type="video/mp4" />
             Your browser does not support the video tag.
