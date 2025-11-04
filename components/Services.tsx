@@ -83,7 +83,7 @@ const Services = () => {
         >
             <div className="max-w-[1600px] mx-auto text-center">
                 <MotionInView variantsDown={slideY(28)} variantsUp={slideYUp(28)} once={false}>
-                    <motion.h2 className="text-fluid-h2 font-medium mb-1 text-[#009ED6] leading-[1.1] font-satoshi">Our Services</motion.h2>
+                    <motion.h2 className="text-fluid-h2 font-medium mb-6 text-[#009ED6] leading-[1.1] font-satoshi ">Our Services</motion.h2>
                 </MotionInView>
                 <MotionInView variantsDown={slideY(16)} variantsUp={slideYUp(16)} once={false}>
                     <motion.p className="text-slate-500 text-fluid-lead font-normal font-inter mb-10 ">More than just services, this is our promise of partnership and excellence.</motion.p>

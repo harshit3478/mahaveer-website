@@ -18,8 +18,8 @@ const StarIcon = ({ className }: { className?: string }) => (
 
 const Hero = () => {
   // Split text into words for word-by-word animation
-  const headlineWords = "We are India's Leading".split(' ');
-  const titleWords = "Medicine Supplier".split(' ');
+  const headlineWords = "Delivering Wellness for a".split(' ');
+  const titleWords = "Healthier Tomorrow".split(' ');
   
   return (
     <section className="relative h-[88vh] flex items-end justify-start text-white overflow-hidden  ">

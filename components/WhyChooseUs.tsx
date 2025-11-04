@@ -68,11 +68,11 @@ const WhyChooseUs = () => {
         offset: ['start start', 'end start']
     });
 
-    const x = useTransform(scrollYProgress, [0.1, 0.9], ['0%', `-${(cards.length - 1) * 50}%`]);
+    const x = useTransform(scrollYProgress, [0.1, 0.9], ['0%', `-${(cards.length - 1) * 60}%`]);
     const opacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [1, 1, 1, 0]);
 
     return (
-        <section id="why-choose-us" ref={targetRef} className="relative bg-white text-gray-900 md:h-[300vh]">
+        <section id="why-choose-us" ref={targetRef} className="relative text-gray-900 lg:h-[300vh] md:h-[250vh]" style={{ backgroundImage: 'url(/whychooseus/3.avif)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundAttachment: 'fixed' }}>
             {/* Mobile: horizontal scroll-snap carousel */}
             <div className="md:hidden py-16">
                 <div className="px-6 sm:px-10 max-w-[1200px] mx-auto">
@@ -120,7 +120,7 @@ const WhyChooseUs = () => {
             </div>
 
             {/* Desktop/Tablet: existing sticky horizontal scrollytelling */}
-            <div className="hidden md:block sticky top-0 h-screen">
+            <div className="hidden lg:block sticky top-0 h-screen">
                 <div className="px-6 sm:px-10 lg:px-14 max-w-[1600px] mx-auto h-full flex flex-col justify-center overflow-hidden">
                     <motion.div style={{ opacity }} className="text-center mb-12 max-w-3xl mx-auto">
                         <MotionInView variantsDown={slideY(24)} variantsUp={slideYUp(24)} once={false}>
@@ -131,9 +131,9 @@ const WhyChooseUs = () => {
                         </MotionInView>
                     </motion.div>
 
-                    <motion.div style={{ x, width: `${cards.length * 30}%` }} className="flex gap-8">
+                    <motion.div style={{ x, width: `${cards.length * 40}%`, paddingLeft: '850px', paddingRight: '850px' }} className="flex gap-8">
                         {cards.map((card) => (
-                            <div key={card.title} className="flex-shrink-0 w-[850px]">
+                            <div key={card.title} className="flex-shrink-0 w-[700px] xl:w-[850px]">
                                 <div className="bg-white p-8 rounded-2xl shadow-lg shadow-gray-500 border border-gray-100 text-left flex flex-col lg:flex-row gap-6 items-center h-full mx-4">
                                     <div className="flex-shrink-0 w-[300px] h-[260px]  rounded-xl">
                                         <div className="w-full h-full  rounded-lg flex items-center justify-center p-0">
