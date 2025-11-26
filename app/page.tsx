@@ -11,6 +11,7 @@ import Testimonials from '@/components/Testimonials';
 import FAQ from '@/components/FAQ';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
+import Gallery from '@/components/Gallery';
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
         <Services />
         <Clients />
         <Testimonials />
+        <Gallery />
         <FAQ />
         <Contact />
       </main>
