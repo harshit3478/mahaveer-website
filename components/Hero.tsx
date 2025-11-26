@@ -27,10 +27,11 @@ const Hero = () => {
         <div className="absolute inset-0 z-0">
             <Image 
                 src="/aboutUs/side-image4.avif" 
-                alt="Hero background"
+                alt="Mahaveer Medi pharmaceutical distribution center in Bangalore"
                 fill
                 className="object-cover"
                 priority
+                fetchPriority="high"
             />
         </div>
         
@@ -40,7 +41,7 @@ const Hero = () => {
             loop 
             muted 
             playsInline
-            preload="metadata"
+            preload="none"
             className="absolute z-[1] object-cover h-full w-full"
         >
             <source src="/video.mp4" type="video/mp4" />
@@ -89,9 +90,9 @@ const Hero = () => {
                 {/* Reviews slide from right */}
                 <motion.div variants={slideFromRight} className="flex items-center gap-3">
                     <div className="flex -space-x-2">
-                        <Image src="/review1.avif" alt="Reviewer 1" width={40} height={40} className="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover"/>
-                        <Image src="/review2.avif" alt="Reviewer 2" width={40} height={40} className="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover"/>
-                        <Image src="/review3.avif" alt="Reviewer 3" width={40} height={40} className="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover"/>
+                        <Image src="/review1.avif" alt="Happy customer testimonial - Pharmaceutical distributor client" width={40} height={40} className="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover"/>
+                        <Image src="/review2.avif" alt="Satisfied chemist review - Medicine supplier partner" width={40} height={40} className="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover"/>
+                        <Image src="/review3.avif" alt="Hospital administrator testimonial - Healthcare distributor" width={40} height={40} className="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover"/>
                     </div>
                     <div className="text-left">
                         <div className="flex text-yellow-400 mb-0.5">

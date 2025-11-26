@@ -11,7 +11,7 @@ const Gallery = () => {
     const images = Array.from({ length: 11 }).map((_, i) => ({
         id: i + 1,
         src: `/gallery/${i + 1}.webp`,
-        alt: `Gallery Image ${i + 1}`
+        alt: `Mahaveer Medi team and facility - Pharmaceutical distribution in Bengaluru ${i + 1}`
     }));
 
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -55,7 +55,7 @@ const Gallery = () => {
                                 fill
                                 className="object-cover"
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 80vw"
-                                priority
+                                loading="lazy"
                             />
                         </motion.div>
                     </div>

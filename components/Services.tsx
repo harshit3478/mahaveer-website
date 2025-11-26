@@ -95,6 +95,33 @@ const Services = () => {
                         </MotionInView>
                     ))}
                 </motion.div>
+                
+                {/* Service Schema for SEO */}
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            '@context': 'https://schema.org',
+                            '@type': 'ItemList',
+                            itemListElement: services.map((service, index) => ({
+                                '@type': 'Service',
+                                position: index + 1,
+                                name: service.name,
+                                description: service.description,
+                                provider: {
+                                    '@type': 'Organization',
+                                    name: 'Mahaveer Medi-Sales Pvt. Ltd.',
+                                    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.mahaveermedi.com',
+                                },
+                                areaServed: {
+                                    '@type': 'Country',
+                                    name: 'India',
+                                },
+                                serviceType: 'Pharmaceutical Distribution',
+                            })),
+                        }),
+                    }}
+                />
             </div>
         </motion.section>
     );
