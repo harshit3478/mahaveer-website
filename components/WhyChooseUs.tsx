@@ -131,7 +131,7 @@ const WhyChooseUs = () => {
                         </MotionInView>
                     </motion.div>
 
-                    <motion.div style={{ x, width: `${cards.length * 40}%`, paddingLeft: '850px', paddingRight: '850px' }} className="flex gap-8">
+                    <motion.div style={{ x, width: `${cards.length * 40}%`, paddingRight: '850px' }} className="flex gap-8">
                         {cards.map((card) => (
                             <div key={card.title} className="flex-shrink-0 w-[700px] xl:w-[850px]">
                                 <div className="bg-white p-8 rounded-2xl shadow-lg shadow-gray-500 border border-gray-100 text-left flex flex-col lg:flex-row gap-6 items-center h-full mx-4">
