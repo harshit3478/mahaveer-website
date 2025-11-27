@@ -88,19 +88,19 @@ const AboutUs = () => {
                 </div>
                 <div className="grid grid-cols-3 grid-rows-3 gap-3 h-[500px]">
                     <div className="col-span-1 row-span-2 rounded-xl overflow-hidden">
-                        <Image src={images[0]} alt="About 1" width={300} height={600} className="w-full h-full object-cover" />
+                        <Image src={images[0]} alt="Mahaveer Medi pharmaceutical warehouse in Bengaluru" width={300} height={600} className="w-full h-full object-cover" loading="lazy" />
                     </div>
                     <div className="col-span-2 row-span-1 rounded-xl overflow-hidden">
-                        <Image src={images[1]} alt="About 2" width={600} height={300} className="w-full h-full object-cover" />
+                        <Image src={images[1]} alt="Medicine distribution facility with modern logistics" width={600} height={300} className="w-full h-full object-cover" loading="lazy" />
                     </div>
                     <div className="col-span-1 row-span-1 rounded-xl overflow-hidden">
-                        <Image src={images[2]} alt="About 3" width={300} height={300} className="w-full h-full object-cover" />
+                        <Image src={images[2]} alt="Pharmaceutical storage with temperature control systems" width={300} height={300} className="w-full h-full object-cover" loading="lazy" />
                     </div>
                     <div className="col-span-1 row-span-2 rounded-xl overflow-hidden">
-                        <Image src={images[3]} alt="About 4" width={300} height={600} className="w-full h-full object-cover" />
+                        <Image src={images[3]} alt="Professional team managing pharmaceutical supply chain" width={300} height={600} className="w-full h-full object-cover" loading="lazy" />
                     </div>
                     <div className="col-span-1 row-span-1 rounded-xl overflow-hidden">
-                        <Image src={images[4]} alt="About 5" width={300} height={300} className="w-full h-full object-cover" />
+                        <Image src={images[4]} alt="Quality pharmaceutical products ready for distribution" width={300} height={300} className="w-full h-full object-cover" loading="lazy" />
                     </div>
                 </div>
             </div>

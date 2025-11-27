@@ -76,7 +76,7 @@ const WhyChooseUs = () => {
             {/* Mobile: horizontal scroll-snap carousel */}
             <div className="md:hidden py-16">
                 <div className="px-6 sm:px-10 max-w-[1200px] mx-auto">
-                    <div className="text-left mb-8">
+                    <div className="text-left mb-8 pt-4">
                         <h2 className="text-fluid-h2 font-medium mb-2 text-[#009ED6] leading-[1.15] font-satoshi">Why Choose Us?</h2>
                         <p className="text-slate-600 text-base sm:text-lg font-inter">Because reliable healthcare needs a <span className="font-medium text-slate-800">reliable partner</span>.</p>
                     </div>

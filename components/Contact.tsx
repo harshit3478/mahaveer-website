@@ -123,14 +123,16 @@ const Contact = () => {
               variants={fadeInUp}
               className="space-y-4 sm:space-y-6 mb-6 sm:mb-10 lg:mb-12"
             >
-              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-0">
-                <span className="text-white text-base sm:text-lg font-medium">
-                  Office
-                </span>
-                <span className="text-gray-300 text-sm sm:text-base sm:text-right sm:max-w-xs">
-                  Mahaveer Arcade, Sirsi Rd, Bengaluru
-                </span>
-              </div>
+              <address className="not-italic">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-0">
+                  <span className="text-white text-base sm:text-lg font-medium">
+                    Office
+                  </span>
+                  <span className="text-gray-300 text-sm sm:text-base sm:text-right sm:max-w-xs">
+                    Mahaveer Arcade, Sirsi Rd, Bengaluru
+                  </span>
+                </div>
+              </address>
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-0">
                 <span className="text-white text-base sm:text-lg font-medium">
                   Email

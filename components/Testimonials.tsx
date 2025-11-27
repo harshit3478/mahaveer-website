@@ -36,7 +36,7 @@ const Testimonials = () => {
                 {/* Mobile: horizontal scroll-snap list with subtle animations */}
                                                 <ScrollCapture className="md:hidden px-6 overflow-x-auto snap-x snap-mandatory flex gap-4 pb-2 touch-pan-x">
                     {testimonials.map(t => (
-                        <div key={t.name} className="snap-center scroll-ml-6 flex-shrink-0 w-[84vw]">
+                        <article key={t.name} className="snap-center scroll-ml-6 flex-shrink-0 w-[84vw]">
                             <motion.div 
                                 initial={{ opacity: 0.6, scale: 0.98, y: 8 }}
                                 whileInView={{ opacity: 1, scale: 1, y: 0 }}
@@ -44,16 +44,16 @@ const Testimonials = () => {
                                 transition={{ duration: 0.35, ease: 'easeOut' }}
                                 className="bg-[#F5F5F5] p-6 rounded-2xl flex flex-col h-full"
                             >
-                                <p className="text-gray-700 mb-6 flex-grow text-base leading-relaxed">{t.quote}</p>
+                                <blockquote className="text-gray-700 mb-6 flex-grow text-base leading-relaxed">{t.quote}</blockquote>
                                 <div className="flex items-center mt-auto">
-                                    <img src={t.avatar} alt={t.name} className="w-12 h-12 rounded-full mr-4 object-cover"/>
+                                    <img src={t.avatar} alt={`${t.name} - ${t.company}`} className="w-12 h-12 rounded-full mr-4 object-cover" loading="lazy"/>
                                     <div>
                                         <p className="font-semibold text-gray-900 text-base">{t.name}</p>
                                         <p className="text-gray-600 text-sm">{t.company}</p>
                                     </div>
                                 </div>
                             </motion.div>
-                        </div>
+                        </article>
                     ))}
                 </ScrollCapture>
 
@@ -61,18 +61,16 @@ const Testimonials = () => {
                 <motion.div variants={staggerContainer} className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
                     {testimonials.map(t => (
                         <MotionInView key={t.name} variantsDown={slideY(20)} variantsUp={slideYUp(20)} once={false}>
-                          <motion.div 
-                              className="bg-[#F5F5F5] p-8 rounded-2xl flex flex-col h-full"
-                          >
-                              <p className="text-gray-700 mb-8 flex-grow text-base leading-relaxed">{t.quote}</p>
+                          <article className="bg-[#F5F5F5] p-8 rounded-2xl flex flex-col h-full">
+                              <blockquote className="text-gray-700 mb-8 flex-grow text-base leading-relaxed">{t.quote}</blockquote>
                               <div className="flex items-center mt-auto">
-                                  <img src={t.avatar} alt={t.name} className="w-14 h-14 rounded-full mr-4 object-cover"/>
+                                  <img src={t.avatar} alt={`${t.name} - ${t.company}`} className="w-14 h-14 rounded-full mr-4 object-cover" loading="lazy"/>
                                   <div>
                                       <p className="font-semibold text-gray-900 text-base">{t.name}</p>
                                       <p className="text-gray-600 text-sm">{t.company}</p>
                                   </div>
                               </div>
-                          </motion.div>
+                          </article>
                         </MotionInView>
                     ))}
                 </motion.div>
