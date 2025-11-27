@@ -128,7 +128,7 @@ const Clients = () => {
                             onClick={() => setViewAll(!viewAll)}
                             className="px-6 py-3 bg-[#67B33C] text-white rounded-full font-medium hover:bg-[#5a9e33] transition-colors duration-300 shadow-md hover:shadow-lg"
                         >
-                            {viewAll ? 'Show Less' : 'View All Logos'}
+                            {viewAll ? 'Show Less' : 'Show All'}
                         </button>
                     </div>
                 </div>
