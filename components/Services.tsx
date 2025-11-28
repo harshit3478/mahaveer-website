@@ -1,11 +1,11 @@
 'use client'
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 import { staggerContainer, fadeInUp } from '@/lib/animations';
 import MotionInView from '@/components/MotionInView';
 import { slideY, slideYUp } from '@/lib/animPresets';
-import { SealCheck, House, Package, Cpu, Truck, ThumbsUp, ArrowRight } from '@phosphor-icons/react';
+import { SealCheck, House, Package, Cpu, Truck, ThumbsUp } from '@phosphor-icons/react';
 
 const ServiceIcons: { [key: string]: any } = {
     FulfillmentRate: SealCheck,
@@ -17,44 +17,17 @@ const ServiceIcons: { [key: string]: any } = {
 };
 
 const ServiceCard = ({ service }: { service: { name: string; description: string } }) => {
-    const [isHovered, setIsHovered] = useState(false);
     const iconKey = service.name.replace(/\s/g, '');
     const IconComponent = ServiceIcons[iconKey];
 
     return (
         <motion.div 
             variants={fadeInUp}
-            onHoverStart={() => setIsHovered(true)}
-            onHoverEnd={() => setIsHovered(false)}
-            className="bg-white border border-gray-100 p-8 rounded-2xl text-left transition-all duration-300 shadow-lg"
+            className="bg-white border border-gray-100 p-8 rounded-2xl text-left transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1"
         >
-            {/* Icon Container - No circle background */}
-            <div className="mb-6 relative w-12 h-12">
-                <AnimatePresence mode="wait">
-                    {!isHovered ? (
-                        <motion.div
-                            key="icon"
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: 20 }}
-                            transition={{ duration: 0.1, ease: "easeInOut" }}
-                            className="text-[#67B33C] absolute"
-                        >
-                            <IconComponent size={48} weight="regular" />
-                        </motion.div>
-                    ) : (
-                        <motion.div
-                            key="arrow"
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: 20 }}
-                            transition={{ duration: 0.1, ease: "anticipate" }}
-                            className="text-gray-900 absolute"
-                        >
-                            <ArrowRight size={48} weight="regular" />
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+            {/* Icon Container */}
+            <div className="mb-6 w-12 h-12 text-[#67B33C]">
+                <IconComponent size={48} weight="regular" />
             </div>
 
             <h3 className="text-xl font-semibold mb-3 text-gray-900">{service.name}</h3>

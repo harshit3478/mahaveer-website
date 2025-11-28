@@ -72,7 +72,7 @@ const WhyChooseUs = () => {
     const opacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [1, 1, 1, 0]);
 
     return (
-        <section id="why-choose-us" ref={targetRef} className="relative text-gray-900 lg:h-[300vh] md:h-[250vh]" style={{ backgroundImage: 'url(/whychooseus/3.avif)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundAttachment: 'fixed' }}>
+        <section id="why-choose-us" ref={targetRef} className="relative text-gray-900 md:h-[250vh] lg:h-[300vh]" style={{ backgroundImage: 'url(/whychooseus/3.avif)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundAttachment: 'fixed' }}>
             {/* Mobile: horizontal scroll-snap carousel */}
             <div className="md:hidden py-16">
                 <div className="px-6 sm:px-10 max-w-[1200px] mx-auto">
@@ -120,23 +120,23 @@ const WhyChooseUs = () => {
             </div>
 
             {/* Desktop/Tablet: existing sticky horizontal scrollytelling */}
-            <div className="hidden lg:block sticky top-0 h-screen">
+            <div className="hidden md:block sticky top-0 h-screen">
                 <div className="px-6 sm:px-10 lg:px-14 max-w-[1600px] mx-auto h-full flex flex-col justify-center overflow-hidden">
                     <motion.div style={{ opacity }} className="text-center mb-12 max-w-3xl mx-auto">
                         <MotionInView variantsDown={slideY(24)} variantsUp={slideYUp(24)} once={false}>
-                            <h2 className="text-[80px] font-medium mb-3 text-[#009ED6] leading-[1.1] font-satoshi ">Why Choose Us?</h2>
+                            <h2 className="text-5xl md:text-6xl lg:text-7xl xl:text-[80px] font-medium mb-3 text-[#009ED6] leading-[1.1] font-satoshi">Why Choose Us?</h2>
                         </MotionInView>
                         <MotionInView variantsDown={slideY(16)} variantsUp={slideYUp(16)} once={false}>
                             <p className="text-slate-500 text-[20px] font-normal font-inter ">Because reliable healthcare needs a <span className="font-medium text-slate-800">reliable partner</span>.</p>
                         </MotionInView>
                     </motion.div>
 
-                    <motion.div style={{ x, width: `${cards.length * 40}%`, paddingRight: '850px' }} className="flex gap-8">
+                    <motion.div style={{ x, width: `${cards.length * 40}%`, paddingRight: '850px' }} className="flex gap-6 md:gap-8">
                         {cards.map((card) => (
-                            <div key={card.title} className="flex-shrink-0 w-[700px] xl:w-[850px]">
-                                <div className="bg-white p-8 rounded-2xl shadow-lg shadow-gray-500 border border-gray-100 text-left flex flex-col lg:flex-row gap-6 items-center h-full mx-4">
-                                    <div className="flex-shrink-0 w-[300px] h-[260px]  rounded-xl">
-                                        <div className="w-full h-full  rounded-lg flex items-center justify-center p-0">
+                            <div key={card.title} className="flex-shrink-0 w-[550px] md:w-[600px] lg:w-[700px] xl:w-[850px]">
+                                <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg shadow-gray-500 border border-gray-100 text-left flex flex-col md:flex-row gap-6 items-center h-full mx-4">
+                                    <div className="flex-shrink-0 w-[200px] md:w-[250px] lg:w-[300px] h-[180px] md:h-[220px] lg:h-[260px] rounded-xl">
+                                        <div className="w-full h-full rounded-lg flex items-center justify-center p-0">
                                             <Image 
                                                 src={card.image} 
                                                 alt={card.title} 
@@ -147,7 +147,7 @@ const WhyChooseUs = () => {
                                         </div>
                                     </div>
                                     <div className="flex flex-col">
-                                        <h3 className="text-[50px] font-bricolage mb-3 text-gray-900 leading-tight">{card.title}</h3>
+                                        <h3 className="text-3xl md:text-4xl lg:text-[50px] font-bricolage mb-3 text-gray-900 leading-tight">{card.title}</h3>
                                         <p 
                                             className="text-gray-600 text-[16px] font-inter mb-5 leading-relaxed"
                                             dangerouslySetInnerHTML={{ __html: card.description }}
