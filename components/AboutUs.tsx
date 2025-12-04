@@ -70,10 +70,10 @@ const AboutUs = () => {
             <div className="max-w-[1600px] mx-auto grid lg:grid-cols-2 gap-16 items-center">
                 <div className="">
                     <motion.p variants={fadeInUp} className="text-gray-600 text-md  md:text-[20px] mb-4 leading-relaxed font-normal">
-                        <span className="font-semibold text-gray-900">Mahaveer Medi-Sales Pvt. Ltd. (MMSPL)</span> has been a leading pharma distributor in Bengaluru for over two decades. With a robust network, we partner with <span className="font-semibold text-gray-900">280+</span> pharmaceutical companies and <span className="font-semibold text-gray-900">1500</span> divisions, serving <span className="font-semibold text-gray-900">10,000</span> chemists, hospitals, and government institutions daily.
+                        For over two decades, <span className="font-semibold text-gray-900">Mahaveer Medi-Sales Pvt. Ltd. (MMSPL)</span> has powered Bengaluru’s pharmaceutical ecosystem, partnering with <span className="font-semibold text-gray-900">280+</span> companies and <span className="font-semibold text-gray-900">1500</span> divisions to supply <span className="font-semibold text-gray-900">10,000</span> chemists, hospitals, and government institutions every single day.
                     </motion.p>
                     <motion.p variants={fadeInUp} className="text-gray-600 text-md  md:text-[20px] mb-12 leading-relaxed font-normal">
-                        We take pride in being the <span className="font-semibold text-gray-900">first digitalized distributor</span> in the pharma industry, driving innovation and excellence in pharmaceutical trade.
+                        As the industry’s <span className="font-semibold text-gray-900">first digitalised distributor</span>, we continue to set the pace, proving that trust isn’t just assumed, it’s earned every day.
                     </motion.p>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
                         {stats.map((stat) => (

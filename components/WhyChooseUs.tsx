@@ -12,7 +12,7 @@ const WhyChooseUs = () => {
     const cards = [
         {
             title: "Our Fleet, Your Peace of Mind",
-            description: "With <span class='font-semibold text-gray-900'>150+ dedicated delivery vehicles</span>, we ensure medicines reach you quickly, safely, and on schedule.",
+            description: "With <span class='font-semibold text-gray-900'>150+ dedicated delivery vehicles</span>, we guarantee quick, secure, and scheduled supply.",
             image: "/whychooseus/card-image1.avif",
             features: [
                 "Real Time Tracking",
@@ -21,8 +21,8 @@ const WhyChooseUs = () => {
             ]
         },
         {
-            title: "Connecting India's Health",
-            description: "From metros to remote towns, our robust network connects pharmacies and hospitals across <span class='font-semibold text-gray-900'>all of India</span>",
+            title: "Nationwide Connectivity, Uninterrupted Care",
+            description: "From India’s metropolitan centers to its farthest towns, we <span class='font-semibold text-gray-900'>connect pharmacies and hospitals seamlessly</span>.",
             image: "/whychooseus/card-image2.avif",
             features: [
                 "24×7 supply coverage through our hubs",
@@ -32,7 +32,7 @@ const WhyChooseUs = () => {
         },
         {
             title: "Certified Excellence",
-            description: "We follow strict quality standards and hold industry certifications, guaranteeing genuine products every time",
+            description: "Backed by rigorous quality protocols and industry certifications, we ensure product authenticity in every supply.",
             image: "/whychooseus/card-image3.avif",
             features: [
                 "100% genuine products, guaranteed",
@@ -42,7 +42,7 @@ const WhyChooseUs = () => {
         },
         {
             title: "Technology-Driven Logistics",
-            description: "Real-time tracking and digital inventory management bring transparency and efficiency to every order.",
+            description: "Digital inventory control and live tracking enhance transparency and efficiency across every shipment.",
             image: "/whychooseus/card-image4.avif",
             features: [
                 "Real-time GPS delivery tracking",
@@ -51,8 +51,8 @@ const WhyChooseUs = () => {
             ]
         },
         {
-            title: "Wide Product Range",
-            description: "From life-saving medicines to everyday healthcare essentials, we cover <span class='font-semibold text-gray-900'>all major medical categories</span>.",
+            title: "Comprehensive Product Range",
+            description: "From critical medicines to daily healthcare essentials, we cover <span class='font-semibold text-gray-900'>every major medical category</span>.",
             image: "/whychooseus/card-image5.avif",
             features: [
                 "Branded, generic & OTC medicines",
@@ -78,7 +78,7 @@ const WhyChooseUs = () => {
                 <div className="px-6 sm:px-10 max-w-[1200px] mx-auto">
                     <div className="text-left mb-8 pt-4">
                         <h2 className="text-fluid-h2 font-medium mb-2 text-[#009ED6] leading-[1.15] font-satoshi">Why Choose Us?</h2>
-                        <p className="text-slate-600 text-base sm:text-lg font-inter">Because reliable healthcare needs a <span className="font-medium text-slate-800">reliable partner</span>.</p>
+                        <p className="text-slate-600 text-base sm:text-lg font-inter">Because <span className="font-medium text-slate-800">dependability</span> isn’t optional in healthcare.</p>
                     </div>
                 </div>
                 {/* Mobile: horizontal scroll capture to encourage swiping through */}
@@ -127,7 +127,7 @@ const WhyChooseUs = () => {
                             <h2 className="text-5xl md:text-6xl lg:text-7xl xl:text-[80px] font-medium mb-3 text-[#009ED6] leading-[1.1] font-satoshi">Why Choose Us?</h2>
                         </MotionInView>
                         <MotionInView variantsDown={slideY(16)} variantsUp={slideYUp(16)} once={false}>
-                            <p className="text-slate-500 text-[20px] font-normal font-inter ">Because reliable healthcare needs a <span className="font-medium text-slate-800">reliable partner</span>.</p>
+                            <p className="text-slate-500 text-[20px] font-normal font-inter ">Because <span className="font-medium text-slate-800">dependability</span> isn’t optional in healthcare.</p>
                         </MotionInView>
                     </motion.div>
 

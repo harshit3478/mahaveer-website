@@ -75,7 +75,7 @@ const Hero = () => {
             {/* Slide up from bottom */}
                         <MotionInView variantsDown={slideY(20)} variantsUp={slideYUp(20)} once={false}>
                             <motion.p className="text-fluid-lead max-w-lg text-white/90 mb-8 leading-relaxed font-normal">
-                                With over 20 years of experience, we have built a reputation for being the leading wholesale medicine supplier in India
+                                20 years in this industry isn’t just experience, it’s an oath of Trust and Reliability
                             </motion.p>
                         </MotionInView>
             

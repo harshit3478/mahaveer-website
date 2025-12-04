@@ -38,11 +38,11 @@ const ServiceCard = ({ service }: { service: { name: string; description: string
 
 const Services = () => {
     const services = [
-        { name: "Fulfillment Rate", description: "We aim to constantly fulfill all orders of our customers with our fill rate being 98%." },
+        { name: "Fulfillment Rate", description: "Our fill rate of 98% ensures customers receive nearly every order completely." },
         { name: "Customer Support", description: "Developing a relationship with our customers is what we strive at." },
         { name: "Transparency", description: "We believe in complete transparency across all processes for our customers." },
         { name: "Seamlessness", description: "Experience effortless procurement. Our digital approach makes orders and payments seamless and hassle-free." },
-        { name: "Fastest Delivery", description: "We utilize a variety of delivery methods to streamline the process, ensuring we reach our customers as quickly as possible." },
+        { name: "Fastest Delivery", description: "We utilize a variety of delivery methods to streamline the process, bringing healthcare to our customers, fast and hassle-free." },
         { name: "One Platform", description: "Our app allows you to easily place orders, check their status, and complete transactions all in one place." },
     ];
     return (
