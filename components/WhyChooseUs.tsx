@@ -22,7 +22,7 @@ const WhyChooseUs = () => {
         },
         {
             title: "Nationwide Connectivity, Uninterrupted Care",
-            description: "From India’s metropolitan centers to its farthest towns, we <span class='font-semibold text-gray-900'>connect pharmacies and hospitals seamlessly</span>.",
+            description: "From India’s metropolitan centers to its farthest towns, we connect pharmacies and hospitals seamlessly.",
             image: "/whychooseus/card-image2.avif",
             features: [
                 "24×7 supply coverage through our hubs",
