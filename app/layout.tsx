@@ -79,20 +79,11 @@ export const metadata = {
     siteName: 'Mahaveer Medi',
     title: 'Mahaveer Medi - Leading Pharmaceutical Distributor in Bangalore',
     description: 'Premier pharmaceutical distributor in Bengaluru with 20+ years experience. Serving 10,000+ chemists, hospitals & institutions. 98% fulfillment rate, 25,000+ SKUs.',
-    images: [
-      {
-        url: '/mahaveer-logo.avif',
-        width: 1200,
-        height: 630,
-        alt: 'Mahaveer Medi - Pharmaceutical Distributor',
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Mahaveer Medi - Leading Pharmaceutical Distributor in Bangalore',
     description: 'Premier pharmaceutical distributor with 20+ years experience. 98% fulfillment rate, 25,000+ SKUs.',
-    images: ['/mahaveer-logo.avif'],
   },
   alternates: {
     canonical: siteUrl,
